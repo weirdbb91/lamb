@@ -1,0 +1,9 @@
+lamb/gradlew
+lamb/gradlew.bat
+lamb/HELP.md
+lamb/settings.gradle
+.gradle/
+.idea/
+.build/
+gradle/
+*.properties
