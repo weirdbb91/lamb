@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="fragments/common :: head('Login')">헤드, 타이틀</head>
+
+<body class="text-center">
+
+    <div th:replace="fragments/common :: background"/>
+    <nav th:replace="fragments/common :: nav_bar('Login')">네비게이션 바</nav>
+
+    <form class="form-signin w-50 m-auto my-5 p-5 bg-white border border-secondary rounded" th:action="@{/account/login}" method="POST"
+          style="max-width: 300px">
+        <img class="mb-4" src="http://drive.google.com/uc?export=view&id=1o9y1Ru-GX3ShEDk2SIUhbw9oSd00b6ug" alt="logo" width="179" height="228">
+        <h1 class="h3 mb-3 fw-normal">Please login</h1>
+        <div th:if="${param.error}" class="alert alert-danger" role="alert">
+            Invalid username and password.
+        </div>
+        <div th:if="${param.logout}" class="alert alert-primary" role="alert">
+            You've been logged out.
+        </div>
+        <label for="username" class="visually-hidden">Username</label>
+        <input type="text" id="username" name="username" class="form-control" placeholder="Username" required="" autofocus="">
+        <label for="inputPassword" class="visually-hidden">Password</label>
+        <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required="">
+<!--        <div class="checkbox mb-3">-->
+<!--            <label>-->
+<!--                <input type="checkbox" value="remember-me"> Remember me-->
+<!--            </label>-->
+<!--        </div>-->
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Login</button>
+
+        <!-- 소셜 로그인 버튼 노출 영역 -->
+<!--        <a href="https://nid.naver.com/oauth2.0/authorize?response_type=token&client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_CALLBACK_URL&state=f1ddfc2a-1abe-426d-844c-3958a4e6c263"-->
+<!--           onclick="window.open(this.href, 'naverloginpop', 'titlebar=1, resizable=1, scrollbars=yes, width=600, height=550'); return false"-->
+<!--           id="naver_id_login_anchor">-->
+<!--            -->
+<!--        </a>-->
+<!--        <div id="naver_id_login">-->
+<!--            <img src="http://drive.google.com/uc?export=view&id=1u5ewEoQwCB_GqEFBcH4x9mVbP8TTcyfR" alt="logo" width="34" height="34" border="0" title="네이버 아이디로 로그인">-->
+<!--        </div>-->
+<!--        <img class="mb-4" name="kakao_logo" src="http://drive.google.com/uc?export=view&id=1qARWDcVNzcW5kNAu749DsnI8IENxmT-6" alt="logo" width="34" height="34">-->
+
+<!--        <div id="naver_id_login">-->
+<!--&lt;!&ndash;            <a href="https://nid.naver.com/oauth2.0/authorize?response_type=token&client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_CALLBACK_URL&state=8c8aae42-9044-4e8d-af90-181f2c463963"&ndash;&gt;-->
+<!--            <a th:href="${url_naver}" method="GET"-->
+<!--               onclick="window.open(this.href, 'naverloginpop', 'titlebar=1, resizable=1, scrollbars=yes, width=600, height=550'); return false">-->
+<!--                <img src="http://drive.google.com/uc?export=view&id=1UXh63jnXNbWNjkhIeFLgfcJ0cOFEySPB" border="0" width="34" height="34"></a>-->
+<!--        </div>-->
+
+        <span class="btn btn-primary" onclick="location.href='/oauth2/authorization/google'">구글 로그인</span>
+        <span class="btn btn-primary" onclick="location.href='/oauth2/authorization/kakao'">카카오 로그인</span>
+        <span class="btn btn-primary" onclick="location.href='/oauth2/authorization/naver'">네이버 로그인</span>
+        <span class="btn btn-primary" onclick="location.href='/oauth2/authorization/github'">깃헙 로그인</span>
+
+
+<!--        <p class="mt-5 mb-3 text-muted">© 2021-2021</p>-->
+    </form>
+</body>
+
+</html>
