@@ -10,7 +10,7 @@
 
     <form class="form-signin w-50 m-auto my-5 p-5 bg-white border border-secondary rounded" th:action="@{/account/login}" method="POST"
           style="max-width: 300px">
-        <img class="mb-4" src="http://drive.google.com/uc?export=view&id=1o9y1Ru-GX3ShEDk2SIUhbw9oSd00b6ug" alt="logo" width="179" height="228">
+        <img class="mb-4" src="https://drive.google.com/uc?export=view&id=1o9y1Ru-GX3ShEDk2SIUhbw9oSd00b6ug" alt="logo" width="179" height="228">
         <h1 class="h3 mb-3 fw-normal">Please login</h1>
         <div th:if="${param.error}" class="alert alert-danger" role="alert">
             Invalid username and password.
@@ -47,10 +47,9 @@
 <!--                <img src="http://drive.google.com/uc?export=view&id=1UXh63jnXNbWNjkhIeFLgfcJ0cOFEySPB" border="0" width="34" height="34"></a>-->
 <!--        </div>-->
 
-        <span class="btn btn-primary" onclick="location.href='/oauth2/authorization/google'">구글 로그인</span>
-        <span class="btn btn-primary" onclick="location.href='/oauth2/authorization/kakao'">카카오 로그인</span>
-        <span class="btn btn-primary" onclick="location.href='/oauth2/authorization/naver'">네이버 로그인</span>
-        <span class="btn btn-primary" onclick="location.href='/oauth2/authorization/github'">깃헙 로그인</span>
+        <p th:each="url : ${urls}">
+            <a th:text="${url.key}" th:href="${url.value}">Client</a>
+        </p>
 
 
 <!--        <p class="mt-5 mb-3 text-muted">© 2021-2021</p>-->
