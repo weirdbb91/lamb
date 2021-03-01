@@ -35,7 +35,7 @@ public class OAuthAttributes {
     }
 
     public static OAuthAttributes of(String registrationId, String userNameAttributeName, Map<String, Object> attributes) {
-        log.info("-----------------------------" + registrationId + "----------------------------");
+        log.info("--------OAuthAttributes-----" + registrationId + "----------------------------");
         log.info("userNameAttributeName : " + userNameAttributeName);
         switch (registrationId) {
             case "google":

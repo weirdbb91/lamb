@@ -5,55 +5,46 @@
 
 <body class="text-center">
 
-    <div th:replace="fragments/common :: background"/>
-    <nav th:replace="fragments/common :: nav_bar('Login')">네비게이션 바</nav>
+<div th:replace="fragments/common :: background"/>
+<nav th:replace="fragments/common :: nav_bar('Login')">네비게이션 바</nav>
 
-    <form class="form-signin w-50 m-auto my-5 p-5 bg-white border border-secondary rounded" th:action="@{/account/login}" method="POST"
-          style="max-width: 300px">
-        <img class="mb-4" src="https://drive.google.com/uc?export=view&id=1o9y1Ru-GX3ShEDk2SIUhbw9oSd00b6ug" alt="logo" width="179" height="228">
-        <h1 class="h3 mb-3 fw-normal">Please login</h1>
-        <div th:if="${param.error}" class="alert alert-danger" role="alert">
-            Invalid username and password.
-        </div>
-        <div th:if="${param.logout}" class="alert alert-primary" role="alert">
-            You've been logged out.
-        </div>
-        <label for="username" class="visually-hidden">Username</label>
-        <input type="text" id="username" name="username" class="form-control" placeholder="Username" required="" autofocus="">
-        <label for="inputPassword" class="visually-hidden">Password</label>
-        <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required="">
-<!--        <div class="checkbox mb-3">-->
-<!--            <label>-->
-<!--                <input type="checkbox" value="remember-me"> Remember me-->
-<!--            </label>-->
-<!--        </div>-->
-        <button class="w-100 btn btn-lg btn-primary" type="submit">Login</button>
+<form class="form-signin w-75 mw-500 m-auto my-5 p-5 bg-white border border-secondary rounded"
+      th:action="@{/account/login}" method="POST"
+      style="max-width: 300px">
+    <img class="mx-auto" src="https://drive.google.com/uc?export=view&id=1o9y1Ru-GX3ShEDk2SIUhbw9oSd00b6ug" alt="logo"
+         th:src="@{/images/draw.png}" width="179" height="228">
+    <h1 class="h3 mb-3 fw-normal">Please login</h1>
+    <div th:if="${param.error}" class="alert alert-danger" role="alert">
+        Invalid username and password.
+    </div>
+    <div th:if="${param.logout}" class="alert alert-primary" role="alert">
+        You've been logged out.
+    </div>
+    <label for="username" class="visually-hidden">Username</label>
+    <input type="text" id="username" name="username" class="form-control" placeholder="Username" required=""
+           autofocus="">
+    <label for="inputPassword" class="visually-hidden">Password</label>
+    <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required="">
 
-        <!-- 소셜 로그인 버튼 노출 영역 -->
-<!--        <a href="https://nid.naver.com/oauth2.0/authorize?response_type=token&client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_CALLBACK_URL&state=f1ddfc2a-1abe-426d-844c-3958a4e6c263"-->
-<!--           onclick="window.open(this.href, 'naverloginpop', 'titlebar=1, resizable=1, scrollbars=yes, width=600, height=550'); return false"-->
-<!--           id="naver_id_login_anchor">-->
-<!--            -->
-<!--        </a>-->
-<!--        <div id="naver_id_login">-->
-<!--            <img src="http://drive.google.com/uc?export=view&id=1u5ewEoQwCB_GqEFBcH4x9mVbP8TTcyfR" alt="logo" width="34" height="34" border="0" title="네이버 아이디로 로그인">-->
-<!--        </div>-->
-<!--        <img class="mb-4" name="kakao_logo" src="http://drive.google.com/uc?export=view&id=1qARWDcVNzcW5kNAu749DsnI8IENxmT-6" alt="logo" width="34" height="34">-->
+    <!--REMEMBER ME!!-->
+    <div class="form-group form-check my-2">
+        <input type="checkbox" class="form-check-input" id="rememberMe" name="remember-me" checked>
+        <label class="form-check-label text-start" for="rememberMe" aria-describedby="rememberMeHelp">Remember
+            me</label>
+    </div>
 
-<!--        <div id="naver_id_login">-->
-<!--&lt;!&ndash;            <a href="https://nid.naver.com/oauth2.0/authorize?response_type=token&client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_CALLBACK_URL&state=8c8aae42-9044-4e8d-af90-181f2c463963"&ndash;&gt;-->
-<!--            <a th:href="${url_naver}" method="GET"-->
-<!--               onclick="window.open(this.href, 'naverloginpop', 'titlebar=1, resizable=1, scrollbars=yes, width=600, height=550'); return false">-->
-<!--                <img src="http://drive.google.com/uc?export=view&id=1UXh63jnXNbWNjkhIeFLgfcJ0cOFEySPB" border="0" width="34" height="34"></a>-->
-<!--        </div>-->
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Login</button>
 
-        <p th:each="url : ${urls}">
-            <a th:text="${url.key}" th:href="${url.value}">Client</a>
-        </p>
+    <div class="container mt-2 my-1 p-1 bg-white border border-secondary rounded">
+        <div class="text-center mb-2">Social Login</div>
+        <a style="display: inline" th:each="url : ${urls}" th:href="${url.value}">
+            <img th:src="@{${'/images/' + url.key + '.png'}}" width="34" height="34" th:alt="${url.key}"/>
+        </a>
+    </div>
 
 
-<!--        <p class="mt-5 mb-3 text-muted">© 2021-2021</p>-->
-    </form>
+    <!--        <p class="mt-5 mb-3 text-muted">© 2021-2021</p>-->
+</form>
 </body>
 
 </html>

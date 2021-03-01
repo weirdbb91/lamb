@@ -14,7 +14,7 @@ public enum CustomOAuth2Provider {
                     .tokenUri("https://nid.naver.com/oauth2.0/token")
                     .userInfoUri("https://openapi.naver.com/v1/nid/me")
                     .userNameAttributeName("response")
-                    .clientName("naver");
+                    .clientName("Naver");
         }
     },
     KAKAO {
@@ -26,7 +26,7 @@ public enum CustomOAuth2Provider {
                     .tokenUri("https://kauth.kakao.com/oauth/token")
                     .userInfoUri("https://kapi.kakao.com/v2/user/me")
                     .userNameAttributeName("id")
-                    .clientName("kakao");
+                    .clientName("Kakao");
         }
     };
 

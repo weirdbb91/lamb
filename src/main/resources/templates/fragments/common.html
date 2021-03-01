@@ -38,8 +38,8 @@
 
 <body>
 <div th:fragment="background">
-    <div style="position: absolute; bottom: 0; right: 0; z-index: -3;"><img src="https://drive.google.com/uc?export=view&id=1yT8ZCLwjk8QK3QTW_d_Z5oPc5mvrc6jr" alt="happy"></div>
-    <div style="position: absolute; bottom: 0; left: 0; z-index: -3;"><img src="https://drive.google.com/uc?export=view&id=1Xc78ZlIMu6zBpOpbry2BWteOHi1incLT" alt="coffee"></div>
+    <div style="position: absolute; bottom: 0; right: 0; z-index: -3;"><img src="https://drive.google.com/uc?export=view&id=1yT8ZCLwjk8QK3QTW_d_Z5oPc5mvrc6jr" th:src="@{/images/happy.png}" alt="happy"></div>
+    <div style="position: absolute; bottom: 0; left: 0; z-index: -3;"><img src="https://drive.google.com/uc?export=view&id=1Xc78ZlIMu6zBpOpbry2BWteOHi1incLT" th:src="@{/images/coffee.png}" alt="coffee"></div>
 </div>
 
 <nav class="navbar navbar-expand-sm navbar-light bg-light" th:fragment="nav_bar(title)">

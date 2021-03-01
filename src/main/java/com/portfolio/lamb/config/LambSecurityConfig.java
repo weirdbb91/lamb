@@ -17,6 +17,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 import javax.sql.DataSource;
 import java.util.Arrays;
@@ -61,7 +63,8 @@ public class LambSecurityConfig extends WebSecurityConfigurerAdapter {
                             "/account/login",
                             "/account/register",
                             "/oauth2/**",
-                            "/css/**")
+                            "/css/**",
+                            "/images/**")
                         .permitAll()
                     .anyRequest()
                         .authenticated()
@@ -72,6 +75,11 @@ public class LambSecurityConfig extends WebSecurityConfigurerAdapter {
                         .permitAll()
                 .and()
                 .logout()
+                    .deleteCookies("JSESSIONID")
+                .and()
+                .rememberMe()
+                    .userDetailsService(userDetailsService)
+                    .tokenRepository(this.tokenRepository())
                 .and()
                 .oauth2Login()
                     .clientRegistrationRepository(this.clientRegistrationRepository())
@@ -80,6 +88,12 @@ public class LambSecurityConfig extends WebSecurityConfigurerAdapter {
                     .userInfoEndpoint()
                         .userService(customOAuth2UserService);
         //@formatter:on
+    }
+
+    public PersistentTokenRepository tokenRepository() {
+        JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();
+        jdbcTokenRepository.setDataSource(dataSource);
+        return jdbcTokenRepository;
     }
 
 

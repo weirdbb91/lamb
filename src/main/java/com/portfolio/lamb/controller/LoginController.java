@@ -128,6 +128,6 @@ public class LoginController {
             model.addAttribute("error", e.toString());
             return "account/register";
         }
-        return "redirect:/";
+        return "redirect:/account/login";
     }
 }

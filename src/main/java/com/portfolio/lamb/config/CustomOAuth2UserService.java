@@ -45,7 +45,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         // OAuth2UserService를 통해 가져온 OAuth2User의 attribute를 담을 클래스
         OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
 
-        log.info("----------------------------------------------------------------");
         log.info("name : " + attributes.getUsername());
         log.info("email : " + attributes.getEmail());
         log.info("picture : " + attributes.getPicture());
