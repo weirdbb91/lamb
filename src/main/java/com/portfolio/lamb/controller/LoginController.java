@@ -1,7 +1,6 @@
 package com.portfolio.lamb.controller;
 
 
-import antlr.BaseAST;
 import com.portfolio.lamb.domain.user.Member;
 import com.portfolio.lamb.domain.user.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.HttpSession;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
@@ -46,6 +46,10 @@ public class LoginController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private HttpSession session;
+
 
     @GetMapping("/login")
     public String getLoginPage(Model model, Principal principal) {

@@ -33,13 +33,19 @@
             font-family: paybooc-Bold;
             padding: 0;
         }
+
+
     </style>
 </head>
 
 <body>
 <div th:fragment="background">
-    <div style="position: absolute; bottom: 0; right: 0; z-index: -3;"><img src="https://drive.google.com/uc?export=view&id=1yT8ZCLwjk8QK3QTW_d_Z5oPc5mvrc6jr" th:src="@{/images/happy.png}" alt="happy"></div>
-    <div style="position: absolute; bottom: 0; left: 0; z-index: -3;"><img src="https://drive.google.com/uc?export=view&id=1Xc78ZlIMu6zBpOpbry2BWteOHi1incLT" th:src="@{/images/coffee.png}" alt="coffee"></div>
+    <div style="position: absolute; bottom: 0; right: 0; z-index: -3;"><img
+            src="https://drive.google.com/uc?export=view&id=1yT8ZCLwjk8QK3QTW_d_Z5oPc5mvrc6jr"
+            th:src="@{/images/happy.png}" alt="happy"></div>
+    <div style="position: absolute; bottom: 0; left: 0; z-index: -3;"><img
+            src="https://drive.google.com/uc?export=view&id=1Xc78ZlIMu6zBpOpbry2BWteOHi1incLT"
+            th:src="@{/images/coffee.png}" alt="coffee"></div>
 </div>
 
 <nav class="navbar navbar-expand-sm navbar-light bg-light" th:fragment="nav_bar(title)">
@@ -66,14 +72,15 @@
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><span class="dropdown-item-text">백승호</span></li>
                         <li><span class="dropdown-item-text" style="font-size: 0.9rem;">010-2214-9292</span></li>
-                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
                         <li><a class="dropdown-item" target="_sub" href="https://github.com/weirdbb91">
                             <i class="fab fa-fw fa-github" aria-hidden="true"></i> Github</a></li>
                         <li><a class="dropdown-item" target="_sub" href="https://www.instagram.com/weirdbb91/">
                             <i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
                     </ul>
                 </li>
-<!--                <li class="nav-item"><a class="nav-link disabled" tabindex="-1" aria-disabled="true">Thanks</a></li>-->
             </ul>
 
 
@@ -83,13 +90,22 @@
             <a class="btn btn-outline-secondary mx-2" type="submit" th:href="@{/account/register}"
                sec:authorize="!isAuthenticated()">Sign in</a>
 
-            <span class="m-2" th:text="${name}">네임</span>
 
+            <div class="m-2 btn-group" sec:authorize="isAuthenticated()">
+                <a type="button" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
+                   sec:authentication="name">
+                    name
+                </a>
+                <ul class="dropdown-menu">
+                    <li><img class="dropdown-item m-auto" style="width: 140px" th:src="@{/images/picture.png}" alt="picture"></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" sec:authentication="principal.authorities">Role</a></li>
+                    <li><a class="dropdown-item">Email</a></li>
+                </ul>
+            </div>
             <form class="d-flex" th:action="@{/logout}" method="POST" sec:authorize="isAuthenticated()">
-                <span class="m-2" sec:authentication="name">name</span>
-                <span class="m-2" sec:authentication="principal.authorities">Roles</span>
-<!--                <span class="m-2" sec:authentication="email">email</span>-->
-<!--                <span class="m-2" sec:authentication="picture">picture</span>-->
                 <button class="btn btn-outline-secondary" type="submit">Logout</button>
             </form>
         </div>

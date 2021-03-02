@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="fragments/common :: head('Sign in')">헤드, 타이틀</head>
 
@@ -8,9 +8,8 @@
 <div th:replace="fragments/common :: background"/>
 <nav th:replace="fragments/common :: nav_bar('Sign in')">네비게이션 바</nav>
 
-<form class="form-signin w-75 mw-500 m-auto my-5 p-5 bg-white border border-secondary rounded"
-      th:action="@{/account/register}" method="POST"
-      style="max-width: 300px">
+<form class="form-signin w-75 m-auto my-5 p-5 bg-white border border-secondary rounded"
+      th:action="@{/account/register}" method="POST" style="max-width: 300px">
     <img class="mb-4" src="https://drive.google.com/uc?export=view&id=1o9y1Ru-GX3ShEDk2SIUhbw9oSd00b6ug" alt="logo"
          th:src="@{/images/draw.png}" width="179" height="228">
     <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
@@ -22,10 +21,12 @@
     <!--            You have been logged out.-->
     <!--        </div>-->
     <label for="username" class="visually-hidden">Username</label>
-    <input type="text" id="username" name="username" class="form-control" placeholder="Username" required=""
-           autofocus="">
+    <input type="text" id="username" name="username" class="form-control"
+           placeholder="Username" required="" autofocus="">
+
     <label for="inputPassword" class="visually-hidden">Password</label>
-    <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required="">
+    <input type="password" id="inputPassword" name="password" class="form-control"
+           placeholder="Password" required="">
 
     <button class="w-100 mt-3 btn btn-lg btn-primary" type="submit">Sign in</button>
 </form>

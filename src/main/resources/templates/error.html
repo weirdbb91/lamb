@@ -87,9 +87,10 @@
         </div>
     </nav>
 
-    <div class="form-signin w-50 m-auto my-5 p-5 bg-white border border-secondary rounded" style="max-width: 300px">
-        <div th:if="${param.error}" class="alert alert-danger" role="alert">
-            Something wrong.
+    <div class="text-center form-signin w-50 m-auto my-5 p-5 bg-white border border-secondary rounded" style="max-width: 300px">
+        <div class="fs-1">ERROR</div>
+        <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+            <div th:text="${errorMessage}">Something wrong.</div>
         </div>
     </div>
 </main>
