@@ -1,6 +1,7 @@
 package com.portfolio.lamb.controller;
 
 
+import com.portfolio.lamb.config.CustomClientRegistrationRepository;
 import com.portfolio.lamb.domain.user.Member;
 import com.portfolio.lamb.domain.user.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -25,21 +27,17 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/account")
 public class LoginController {
 
-    private static final String authorizationRequestBaseUri = "/oauth2/authorization/";
-    Map<String, String> oauth2AuthenticationUrls = new HashMap<>();
-
     @Autowired
     private MemberService memberService;
 
     @Autowired
-    private ClientRegistrationRepository clientRegistrationRepository;
+    private CustomClientRegistrationRepository clientRegistrationRepository;
 
     @Autowired
     private OAuth2AuthorizedClientService authorizedClientService;
@@ -51,23 +49,18 @@ public class LoginController {
     private HttpSession session;
 
 
+    private static final List<String> clients = Arrays.asList("google", "facebook", "github", "naver", "kakao");
+    private static final String authorizationRequestBaseUri = "/oauth2/authorization/";
+
     @GetMapping("/login")
     public String getLoginPage(Model model, Principal principal) {
         if (principal != null) return "redirect:/";
 
         // social login urls
-        Iterable<ClientRegistration> clientRegistrations = null;
-        ResolvableType type = ResolvableType.forInstance(clientRegistrationRepository)
-                .as(Iterable.class);
-        if (type != ResolvableType.NONE &&
-                ClientRegistration.class.isAssignableFrom(type.resolveGenerics()[0])) {
-            clientRegistrations = (Iterable<ClientRegistration>) clientRegistrationRepository;
-        }
-
-        clientRegistrations.forEach(registration ->
-                oauth2AuthenticationUrls.put(registration.getClientName(),
-                        authorizationRequestBaseUri + registration.getRegistrationId()));
-        model.addAttribute("urls", oauth2AuthenticationUrls);
+        Map<String, String> urls = new LinkedHashMap<>();
+        clients.forEach(registrationId -> urls.put(registrationId,
+                authorizationRequestBaseUri + registrationId));
+        model.addAttribute("urls", urls);
 
         return "account/login";
     }

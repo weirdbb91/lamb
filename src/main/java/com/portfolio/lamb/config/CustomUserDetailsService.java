@@ -1,5 +1,7 @@
-package com.portfolio.lamb.domain.user;
+package com.portfolio.lamb.config;
 
+import com.portfolio.lamb.domain.user.Member;
+import com.portfolio.lamb.domain.user.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -14,7 +16,7 @@ import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class CustomUserDetailsService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
 
