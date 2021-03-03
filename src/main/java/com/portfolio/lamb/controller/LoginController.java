@@ -23,12 +23,14 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
 import java.util.*;
 
+@SessionAttributes
 @Controller
 @RequestMapping("/account")
 public class LoginController {
@@ -66,6 +68,13 @@ public class LoginController {
     }
 
     @GetMapping("/loginSuccess")
+    public String loginSuccess() {
+        return "redirect:/";
+    }
+
+//      TODO 얘는 복붙하다가 딸려온것 같다 확인 요망
+    /*
+    @GetMapping("/loginSuccess")
     public String getLoginInfo(Model model, OAuth2AuthenticationToken authentication) {
         OAuth2AuthorizedClient client = authorizedClientService
                 .loadAuthorizedClient(
@@ -96,6 +105,7 @@ public class LoginController {
 
         return "/";
     }
+    */
 
     @GetMapping("/loginFailure")
     public String loginFailure() {
