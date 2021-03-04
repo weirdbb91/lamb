@@ -35,6 +35,7 @@
         }
 
 
+
     </style>
 </head>
 
@@ -91,21 +92,39 @@
                sec:authorize="!isAuthenticated()">Sign in</a>
 
 
-            <div class="m-2 btn-group" sec:authorize="isAuthenticated()">
+            <div class="m-2 mr-3 btn-group" sec:authorize="isAuthenticated()">
                 <a type="button" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
-                   sec:authentication="name">
-                    name
+                   th:text="${session.member_nickname}">
+                    Nickname
                 </a>
                 <ul class="dropdown-menu">
-                    <li><img class="dropdown-item m-auto" style="width: 140px" th:src="@{/images/picture.png}" alt="picture"></li>
+                    <li><img class="dropdown-item m-auto" style="width: 140px" th:src="@{/images/picture.png}"
+                             alt="picture"></li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>
-                    <li><a class="dropdown-item" sec:authentication="principal.authorities">Role</a></li>
-                    <li><a class="dropdown-item">Email</a></li>
+                    <li class="dropdown-item"><a th:text="${'Index : ' + session.member_id}">Index</a></li>
+                    <li class="dropdown-item"><a th:text="${'ID : ' + session.member_username}">ID</a></li>
+                    <li class="dropdown-item"><a th:if="${session.member_email != ''}"
+                                                 th:text="${session.member_email}">Email</a></li>
+
+                    <li class="dropdown-item"><a class="btn btn-outline-secondary mx-auto"
+                                                 type="submit" th:href="@{/account/update}">Update Info</a></li>
+
+                    <li class="dropdown-item"><a class="text-center btn btn-outline-secondary mx-auto"
+                                                 th:if="${!session.member_social}"
+                                                 type="submit" th:href="@{/account/changePassword}">Password</a></li>
+
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+
+                    <li class="dropdown-item"><a class="btn btn-outline-danger mx-auto"
+                                                 style="font-size: 0.2rem; height: 30px;"
+                                                 type="submit" th:href="@{/account/signOut}">Sign Out</a></li>
                 </ul>
             </div>
-            <form class="d-flex" th:action="@{/logout}" method="POST" sec:authorize="isAuthenticated()">
+            <form class="mx-3 d-flex" th:action="@{/logout}" method="POST" sec:authorize="isAuthenticated()">
                 <button class="btn btn-outline-secondary" type="submit">Logout</button>
             </form>
         </div>

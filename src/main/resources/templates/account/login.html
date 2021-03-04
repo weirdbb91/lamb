@@ -1,41 +1,40 @@
 <!doctype html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<head th:replace="fragments/common :: head('Login')">헤드, 타이틀</head>
+<head th:replace="fragments/common :: head('Login')">head('title')</head>
 
 <body class="text-center">
 
 <div th:replace="fragments/common :: background"/>
-<nav th:replace="fragments/common :: nav_bar('Login')">네비게이션 바</nav>
+<nav th:replace="fragments/common :: nav_bar('Login')">navigation bar</nav>
 
 <form class="form-signin w-75 m-auto my-5 p-5 bg-white border border-secondary rounded"
       th:action="@{/account/login}" method="POST" style="max-width: 300px">
     <img class="mx-auto" src="https://drive.google.com/uc?export=view&id=1o9y1Ru-GX3ShEDk2SIUhbw9oSd00b6ug" alt="logo"
          th:src="@{/images/draw.png}" width="179" height="228">
-    <h1 class="h3 mb-3 fw-normal">Please login</h1>
-    <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
-        Invalid username and password.
-    </div>
-    <div th:if="${param.logout}" class="alert alert-primary" role="alert">
-        You've been logged out.
-    </div>
 
-    <label for="username" class="visually-hidden">Username</label>
-    <input type="text" id="username" name="username" class="form-control"
-           placeholder="Username" required="" autofocus="">
+    <h1 class="h3 mb-3 fw-normal">Please login</h1>
+
+    <div th:if="${error}" th:text="${error}"
+         class="alert alert-danger" role="alert">Error message.</div>
+
+    <label for="inputUsername" class="visually-hidden">Username</label>
+    <input type="text" id="inputUsername" name="username" class="form-control"
+           placeholder="ID is required" required="" autofocus="">
 
     <label for="inputPassword" class="visually-hidden">Password</label>
     <input type="password" id="inputPassword" name="password" class="form-control"
-           placeholder="Password" required="">
+           placeholder="Password is required" required="">
 
     <!--REMEMBER ME!!-->
     <div class="form-group form-check my-2">
         <input type="checkbox" class="form-check-input" id="rememberMe" name="remember-me" checked>
-        <label class="form-check-label text-start" for="rememberMe" aria-describedby="rememberMeHelp">Remember
-            me</label>
+        <label class="form-check-label text-start" for="rememberMe"
+               aria-describedby="rememberMeHelp">Remember me</label>
     </div>
 
-    <button class="w-100 btn btn-lg btn-primary" type="submit">Login</button>
+
+    <button class="w-100 mt-3 btn btn-lg btn-primary" type="submit">Login</button>
 
     <div class="container mt-2 my-1 p-1 bg-white border border-secondary rounded">
         <div class="text-center mb-2">Social Login</div>
@@ -43,9 +42,6 @@
             <img th:src="@{${'/images/' + url.key + '.png'}}" width="34" height="34" th:alt="${url.key}"/>
         </a>
     </div>
-
-
-    <!--        <p class="mt-5 mb-3 text-muted">© 2021-2021</p>-->
 </form>
 </body>
 

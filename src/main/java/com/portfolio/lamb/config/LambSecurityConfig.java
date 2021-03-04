@@ -23,6 +23,9 @@ import javax.sql.DataSource;
 public class LambSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
+    private CustomLoginSuccessHandler customLoginSuccessHandler;
+
+    @Autowired
     private CustomClientRegistrationRepository clientRegistrationRepository;
 
     @Autowired
@@ -34,7 +37,6 @@ public class LambSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private CustomOidcUserService oidcUserService;
 
-
     @Autowired
     private DataSource dataSource;
 
@@ -43,6 +45,7 @@ public class LambSecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -68,7 +71,9 @@ public class LambSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                     .loginPage("/account/login")
-                    .defaultSuccessUrl("/", true)
+                    .defaultSuccessUrl("/")
+                    .successHandler(customLoginSuccessHandler)
+                    .failureUrl("/error")
                         .permitAll()
                 .and()
                 .logout()
@@ -84,14 +89,18 @@ public class LambSecurityConfig extends WebSecurityConfigurerAdapter {
                 .rememberMe()
                     .userDetailsService(userDetailsService)
                     .tokenRepository(this.tokenRepository())
+                    .authenticationSuccessHandler(customLoginSuccessHandler)
                 .and()
                 .oauth2Login()
                     .clientRegistrationRepository(clientRegistrationRepository.customInMemoryClientRegistrationRepository())
                     .loginPage("/account/login")
+                    .defaultSuccessUrl("/")
+                    .successHandler(customLoginSuccessHandler)
                     .failureUrl("/error")
                     .userInfoEndpoint()
                         .userService(oAuth2UserService)
                         .oidcUserService(oidcUserService) // only google uses OidcUserService
+
         ;
         //@formatter:on
     }

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<div th:with="pageName='ChangePassword'"></div>
+<div th:with="mainComment='Change Password'"></div>
+<div th:with="requestAddress=@{/account/changePassword}"></div>
+
+<head th:replace="fragments/common :: head('Sign Out')">head('title')</head>
+
+<body class="text-center">
+
+<div th:replace="fragments/common :: background"/>
+<nav th:replace="fragments/common :: nav_bar('Sign Out')">navigation bar</nav>
+
+<form class="form-signin w-75 m-auto my-5 p-5 bg-white border border-secondary rounded"
+      th:action="@{/account/signOut}" method="POST" style="max-width: 300px">
+
+    <h1 class="h3 mb-3 fw-normal">Sign Out.</h1>
+
+    <div th:if="${error}" th:text="${error}"
+         class="alert alert-danger" role="alert">Error message.
+    </div>
+
+    <div th:if="${!session.member_social}">
+        <label for="inputPassword" class="visually-hidden">Password</label>
+        <input type="password" id="inputPassword" name="password" class="form-control"
+               placeholder="Password is required" required="">
+    </div>
+
+    <button class="w-100 mt-3 btn btn-lg btn-danger" type="submit">Sign Out</button>
+
+
+</form>
+</body>
+
+</html>
