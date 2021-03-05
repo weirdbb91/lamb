@@ -12,14 +12,103 @@
 - 🔥 Spring Security를 이용한 보안 기능 개선
 - 🔥 Thymeleaf 활용
 - ⏱️ 네이버 검색 API 활용
-- ✔ 네이버 아이디로 로그인 + 🔥 구글, 깃헙, 페북, 카카오
+- ✔ 네이버 아이디로 로그인 + ✔ 구글, 깃헙, 페북, 카카오
 
 ---
 ---
+
+- 📋 **account**
+    - **login**
+        - form login
+            - bind Thymeleaf form
+            - password encrypt
+                - put BCryptPasswordEncoder
+            - save in database
+                - set Member Entity
+        - `social login`
+            - **naver, kakao**
+                - copy CommonOAuth2Provider.GOOGLE
+                    - adjust to fit naver
+                - override ClientRegistrationRepository
+                    - put on configure
+                - override OAuth2UserService
+                    - put on endpoint
+            - **google, github, facebook**
+                - use plain CommonOAuth2Provider
+                - ⚠️ google doesn't through OAuth2UserService
+                    - 🙊 google through OidcUserService
+                        - ✔️override OidcUserService
+        - `remember me`
+            - load Member
+                - override UserDetailsService
+            - save token
+                - use JdbcTokenRepositoryImpl 
+                    - set database in
+
+        - override CustomLoginSuccessHandler
+            - set on configure
+    
+    - **logout**
+        - clear session, authentication, cookies
+
+    - **update info**
+        - bind Thymeleaf form
+        - validate member informations
+  
+    - **change password**
+        - bind Thymeleaf form
+    
+    - **sign out**
+        - bind Thymeleaf form
+        - delete Member Entity
+        - clear session
+        - revoke Member Authentication
+
+- 📋 **Board**
+    - create
+    - update, delete
+        - identify origin memberId
+    - `display Board list`
+        - search
+            - JPA Repository
+        - pageable
+            - JPA Ropository
+            - Thymeleaf form set
+
+- 📋📌🔥 **Post**
+    - 🔥 create
+    - update, delete
+        - identify origin memberId
+    - `display Post list`
+        - search
+            - JPA Repository
+        - pageable
+            - JPA Ropository
+            - Thymeleaf form set
+
+- 📋 **Reply**
+    - create
+    - update, delete
+        - identify origin memberId
+
+- 📋 **Naver Search API**
+
 
 # 📝 오늘 할 일
 
-## 🚀 2020년 3월 4일
+## 🚀 2020년 3월 5일
+
+---
+시간 가는줄 모르겠다
+
+- 🔥 add a basic reply feature
+- ⏱ add "Search" form
+- ⏱ apply naver search API on "Search" form
+
+---
+
+
+## 2020년 3월 4일
 
 ---
 소셜 로그인에 시간을 너무 많이 쏟았다  
@@ -27,10 +116,12 @@
 
 - ✔ change password
 - ✔ sign out
+- ✔ Board
 
+역시 영어가 굉장히 중요한것 같다
 
-- 🔥 make the "Board" works
-- ⏱ add a basic reply feature
+- ✔ make the "Board" works
+- 🔥 add a basic reply feature
 - ⏱ add "Search" form
 - ⏱ apply naver search API on "Search" form
 

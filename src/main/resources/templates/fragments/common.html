@@ -36,6 +36,7 @@
 
 
 
+
     </style>
 </head>
 
@@ -130,6 +131,10 @@
         </div>
     </div>
 </nav>
+
+<div th:fragment="errorMessage">
+    <div th:if="${error}" th:text="${error}" class="alert alert-danger" role="alert">Error message.</div>
+</div>
 
 </body>
 

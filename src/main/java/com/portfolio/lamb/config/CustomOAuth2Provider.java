@@ -4,14 +4,13 @@ import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
-import org.springframework.security.oauth2.core.oidc.IdTokenClaimNames;
 
 public enum CustomOAuth2Provider {
     REGISTRATION {
         public ClientRegistration.Builder getBuilder(String registrationId) {
             switch (registrationId) {
                 case "google":
-                    return CustomOAuth2Provider.GOOGLE.getBuilder(registrationId);
+                    return CommonOAuth2Provider.GOOGLE.getBuilder(registrationId);
                 case "github":
                     return CommonOAuth2Provider.GITHUB.getBuilder(registrationId);
                 case "facebook":
@@ -23,22 +22,6 @@ public enum CustomOAuth2Provider {
             }
             throw new IllegalArgumentException("registrationId is not on the list");
         }
-    },
-    GOOGLE {
-        @Override
-        public ClientRegistration.Builder getBuilder(String registrationId) {
-            return getBuilder(registrationId, ClientAuthenticationMethod.BASIC, DEFAULT_REDIRECT_URL)
-                    .scope("openid", "email")
-                    .authorizationUri("https://accounts.google.com/o/oauth2/v2/auth")
-                    .tokenUri("https://www.googleapis.com/oauth2/v4/token")
-                    .jwkSetUri("https://www.googleapis.com/oauth2/v3/certs")
-                    .issuerUri("https://accounts.google.com")
-                    .userInfoUri("https://www.googleapis.com/oauth2/v3/userinfo")
-                    .userNameAttributeName(IdTokenClaimNames.SUB)
-//                    .userNameAttributeName("id")
-                    .clientName("Google");
-        }
-
     },
     NAVER {
         @Override

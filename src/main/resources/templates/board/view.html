@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="fragments/common :: head('Form')">head('title')
+<head th:replace="fragments/common :: head('View')">head('title')
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -33,22 +33,20 @@
             padding: 0;
         }
 
-
-
     </style>
 </head>
 
 <body>
 
 <div th:replace="fragments/common :: background"/>
-<nav th:replace="fragments/common :: nav_bar('Form')">navigation bar</nav>
+<nav th:replace="fragments/common :: nav_bar('View')">navigation bar</nav>
 
 <div class="container m-auto my-5 p-5 bg-white border border-secondary rounded">
     <h2>Board Form</h2>
 
     <div th:replace="fragments/common :: errorMessage"/>
 
-    <form action="#" th:action="@{/board/form}" th:object="${board}" method="POST">
+    <form action="#" th:action="@{/board/form}" th:object="${board}" method="GET">
         <input type="hidden" th:field="*{id}">
         <input type="hidden" th:field="*{authorId}">
         <div class="mb-2 container m-auto text-end">
@@ -58,19 +56,17 @@
             <span th:text="*{authorId}" class="mx-1 text-muted">me</span>
         </div>
 
-        <div class="form-group mb-2">
-            <label for="title">Title</label>
-            <input type="text" class="form-control" id="title" th:field="*{title}"/>
+        <div class="form-group mb-2 m-auto border-bottom border-secondary bg-light" style="min-height: 38px;">
+            <div id="title" th:text="'Title : ' + *{title}">Title : Robinson Crusoe</div>
         </div>
-        <div class="form-group mb-2">
-            <label for="content">Content</label>
-            <textarea rows="3" class="form-control" id="content" th:field="*{content}"></textarea>
+        <div class="form-group mb-2 m-auto bg-light" style="min-height: 86px;">
+            <div id="content" th:text="*{content}">He's a poor guy.</div>
         </div>
 
-        <div class="d-flex justify-content-end mb-2">
-            <a type="button" class="btn btn-secondary mx-sm-3" th:href="@{view}">Cancel</a>
+        <div class="d-flex justify-content-end mt-4">
+            <a type="button" class="btn btn-secondary mx-sm-3" th:href="@{list}">Back</a>
             <a class="btn btn-white disabled mx-sm-3"> </a>
-            <button type="submit" class="btn btn-primary mx-sm-3">Submit</button>
+            <button type="submit" class="btn btn-primary mx-sm-3">Edit</button>
         </div>
     </form>
 

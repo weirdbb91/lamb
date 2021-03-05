@@ -1,4 +1,4 @@
-package com.portfolio.lamb.controller;
+package com.portfolio.lamb.domain.user;
 
 
 import com.portfolio.lamb.domain.user.Member;
