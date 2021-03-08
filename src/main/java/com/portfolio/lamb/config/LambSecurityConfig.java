@@ -26,6 +26,9 @@ public class LambSecurityConfig extends WebSecurityConfigurerAdapter {
     private CustomLoginSuccessHandler customLoginSuccessHandler;
 
     @Autowired
+    private CustomLoginFailureHandler customLoginFailureHandler;
+
+    @Autowired
     private CustomClientRegistrationRepository clientRegistrationRepository;
 
     @Autowired
@@ -73,7 +76,7 @@ public class LambSecurityConfig extends WebSecurityConfigurerAdapter {
                     .loginPage("/account/login")
                     .defaultSuccessUrl("/")
                     .successHandler(customLoginSuccessHandler)
-                    .failureUrl("/error")
+                    .failureUrl("/account/login?error")
                         .permitAll()
                 .and()
                 .logout()

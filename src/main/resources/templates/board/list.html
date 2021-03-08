@@ -8,7 +8,9 @@
 <div th:replace="fragments/common :: background"/>
 <nav th:replace="fragments/common :: nav_bar('Board')">navigation bar</nav>
 
-<div th:replace="fragments/common :: errorMessage"></div>
+
+    <div th:if="${error}" th:text="${error}"
+         class="alert alert-danger" role="alert">Error message.</div>
 
 <div class="container my-5 p-5 bg-white border border-secondary rounded">
     <h2>Board</h2>

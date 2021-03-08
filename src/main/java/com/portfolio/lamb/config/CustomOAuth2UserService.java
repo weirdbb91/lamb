@@ -12,6 +12,7 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -21,7 +22,7 @@ import java.util.Map;
 @Slf4j
 @Service
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
-    private DefaultOAuth2UserService delegate = new DefaultOAuth2UserService();
+    private final DefaultOAuth2UserService delegate = new DefaultOAuth2UserService();
 
     @Autowired
     private MemberService memberService;
@@ -41,7 +42,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
             attributes = (Map<String, Object>) attributes.getOrDefault("response", attributes);
         }
         String id = registrationId + "-" + attributes.getOrDefault("id", null);
-        Assert.isTrue(id != null, "not found OAuth2User id");
+        Assert.isTrue(StringUtils.hasLength(id), "not found OAuth2User id");
         log.info("loadUser :: OAuth2 " + id + " loaded");
 
         Member member = memberService.getOrCreateSocialMember(id);

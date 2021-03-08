@@ -1,6 +1,5 @@
 package com.portfolio.lamb.domain.user;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,10 +19,14 @@ public class MemberService {
         return memberRepository.save(member);
     }
 
-    public boolean validName(String name) {
-        return memberRepository.findByUsername(name).isEmpty()
-                && memberRepository.findByNickname(name).isEmpty();
+    public boolean isUniqueUsername(String name) {
+        return memberRepository.findByUsername(name).isEmpty();
     }
+
+    public boolean isUniqueNickname(String name) {
+        return memberRepository.findByNickname(name).isEmpty();
+    }
+
 
     public Member getMemberByUsername(String username) {
         return memberRepository.findByUsername(username)

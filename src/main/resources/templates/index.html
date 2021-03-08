@@ -42,8 +42,8 @@
 <main>
     <div th:replace="fragments/common :: background"/>
 
-    <nav class="navbar navbar-expand-sm navbar-light bg-light"
-         th:replace="fragments/common :: nav_bar('Home')">
+    <nav th:replace="fragments/common :: nav_bar('Home')"
+         class="navbar navbar-expand-sm navbar-light bg-light">
         <div class="container-fluid">
             <span class="navbar-brand">포트폴리오</span>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -86,6 +86,8 @@
             </div>
         </div>
     </nav>
+
+
 </main>
 
 

@@ -46,7 +46,9 @@
 <div class="container m-auto my-5 p-5 bg-white border border-secondary rounded">
     <h2>Board Form</h2>
 
-    <div th:replace="fragments/common :: errorMessage"/>
+
+    <div th:if="${error}" th:text="${error}"
+         class="alert alert-danger" role="alert">Error message.</div>
 
     <form action="#" th:action="@{/board/form}" th:object="${board}" method="POST">
         <input type="hidden" th:field="*{id}">
@@ -68,7 +70,8 @@
         </div>
 
         <div class="d-flex justify-content-end mb-2">
-            <a type="button" class="btn btn-secondary mx-sm-3" th:href="@{view}">Cancel</a>
+            <a type="button" class="btn btn-secondary mx-sm-3"
+               th:href="@{view(id=${board.id})}">Cancel</a>
             <a class="btn btn-white disabled mx-sm-3"> </a>
             <button type="submit" class="btn btn-primary mx-sm-3">Submit</button>
         </div>

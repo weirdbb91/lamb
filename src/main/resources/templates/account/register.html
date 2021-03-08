@@ -9,30 +9,27 @@
 <nav th:replace="fragments/common :: nav_bar('Sign in')">navigation bar</nav>
 
 <form class="form-signin w-75 m-auto my-5 p-5 bg-white border border-secondary rounded"
-      th:action="@{/account/register}" method="POST" style="max-width: 300px">
-    <img class="mx-auto" src="https://drive.google.com/uc?export=view&id=1o9y1Ru-GX3ShEDk2SIUhbw9oSd00b6ug" alt="logo"
-         th:src="@{/images/draw.png}" width="179" height="228">
+      th:action="@{/account/register}" th:object="${memberDto}" method="POST" style="max-width: 300px">
+    <img class="mx-auto" th:src="@{/images/draw.png}" width="179" height="228" alt="logo"
+         src="https://drive.google.com/uc?export=view&id=1o9y1Ru-GX3ShEDk2SIUhbw9oSd00b6ug">
 
     <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
-    <div th:if="${error}" th:text="${error}"
-         class="alert alert-danger" role="alert">Error message.</div>
-
     <label for="inputUsername" class="visually-hidden">Username</label>
-    <input type="text" id="inputUsername" name="username" class="form-control"
+    <input class="form-control" id="inputUsername" th:field="*{username}"
+           th:classappend="${#fields.hasErrors('username')} ? 'is-invalid'" type="text"
            placeholder="ID is required" required="" autofocus="">
-
-
-
-
-
-
-
-
+    <div class="invalid-feedback" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">
+        Username Error Message
+    </div>
 
     <label for="inputPassword" class="visually-hidden">Password</label>
-    <input type="password" id="inputPassword" name="password" class="form-control"
+    <input class="form-control" id="inputPassword" th:field="*{password}"
+           th:classappend="${#fields.hasErrors('password')} ? 'is-invalid'" type="text"
            placeholder="Password is required" required="">
+    <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">
+        Password Error Message
+    </div>
 
     <button class="w-100 mt-3 btn btn-lg btn-primary" type="submit">Sign in</button>
 

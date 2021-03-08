@@ -8,29 +8,36 @@
 <div th:replace="fragments/common :: background"/>
 <nav th:replace="fragments/common :: nav_bar('Update')">navigation bar</nav>
 
-<form class="form-signin w-75 m-auto my-5 p-5 bg-white border border-secondary rounded"
-      th:action="@{/account/update}" method="POST" style="max-width: 300px">
-    <img class="mx-auto" src="https://drive.google.com/uc?export=view&id=1o9y1Ru-GX3ShEDk2SIUhbw9oSd00b6ug" alt="logo"
-         th:src="@{/images/draw.png}" width="179" height="228">
+<form th:action="@{/account/update}" method="POST" th:object="${memberDto}" style="max-width: 300px"
+      class="form-signin w-75 m-auto my-5 p-5 bg-white border border-secondary rounded">
+
+    <img class="mx-auto" th:src="@{/images/draw.png}" width="179" height="228" alt="logo"
+         src="https://drive.google.com/uc?export=view&id=1o9y1Ru-GX3ShEDk2SIUhbw9oSd00b6ug">
 
     <h1 class="h3 mb-3 fw-normal">User Information Update</h1>
 
-    <div th:if="${error}" th:text="${error}"
-         class="alert alert-danger" role="alert">Error message.
+    <label for="inputNickname" class="visually-hidden">Nickname</label>
+    <input class="form-control" id="inputNickname" th:field="*{nickname}"
+           th:classappend="${#fields.hasErrors('nickname')} ? 'is-invalid'" type="text"
+           th:placeholder="${session.member_nickname}" autofocus="">
+    <div class="invalid-feedback" th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}">
+        Nickname Error Message
     </div>
 
-    <label for="inputNickname" class="visually-hidden">Nickname</label>
-    <input type="text" id="inputNickname" name="nickname" class="form-control"
-           th:placeholder="${session.member_nickname}" autofocus="">
-
     <label for="inputEmail" class="visually-hidden">Email</label>
-    <input type="email" id="inputEmail" name="email" class="form-control"
-           th:placeholder="${session.member_email != null}? ${session.member_email} : 'Email is omittable'">
+    <input class="form-control" id="inputEmail" th:field="*{email}" type="email"
+           th:placeholder="${session.member_email} ? ${session.member_email} : 'Email is omittable'">
+    <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
+        Email Error Message</div>
 
     <div th:if="${!session.member_social}">
         <label for="inputPassword" class="visually-hidden">Password</label>
-        <input type="password" id="inputPassword" name="password" class="form-control"
+        <input class="form-control" id="inputPassword" th:field="*{password}"
+               th:classappend="${#fields.hasErrors('password')} ? 'is-invalid'" type="password"
                placeholder="Password is required" required="">
+        <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">
+            Password Error Message
+        </div>
     </div>
     <button class="w-100 mt-3 btn btn-lg btn-primary" type="submit">Update Info</button>
 

@@ -1,7 +1,6 @@
 package com.portfolio.lamb.domain.user;
 
 import com.portfolio.lamb.domain.Timestamped;
-import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -45,13 +44,12 @@ public class Member extends Timestamped {
 
     private boolean social = false;
 
-    @Builder
-    public Member(Role role, String username, String nickname, String password, String email) {
-        this.role = role;
-        this.username = username;
-        this.nickname = nickname;
-        this.password = password;
-        this.email = email;
+    public Member(MemberDto memberDto) {
+        this.role = Role.USER;
+        this.username = memberDto.getUsername();
+        this.nickname = memberDto.getNickname();
+        this.password = memberDto.getPassword();
+        this.email = memberDto.getEmail();
     }
 
     public Member socialMember(String username) {
@@ -71,9 +69,9 @@ public class Member extends Timestamped {
         return Collections.singleton(new SimpleGrantedAuthority(role.getValue()));
     }
 
-    public void updateNicknameOrEmail(Member member) {
-        this.nickname = !member.getNickname().isEmpty() ? member.getNickname() : this.nickname;
-        this.email = !member.getEmail().isEmpty() ? member.getEmail() : this.email;
+    public void updateNicknameOrEmail(MemberDto memberDto) {
+        this.nickname = !memberDto.getNickname().isEmpty() ? memberDto.getNickname() : this.nickname;
+        this.email = !memberDto.getEmail().isEmpty() ? memberDto.getEmail() : this.email;
     }
 
     public void updatePassword(String password) {

@@ -42,9 +42,11 @@
 <nav th:replace="fragments/common :: nav_bar('View')">navigation bar</nav>
 
 <div class="container m-auto my-5 p-5 bg-white border border-secondary rounded">
-    <h2>Board Form</h2>
+    <h2>Board View</h2>
 
-    <div th:replace="fragments/common :: errorMessage"/>
+
+    <div th:if="${error}" th:text="${error}"
+         class="alert alert-danger" role="alert">Error message.</div>
 
     <form action="#" th:action="@{/board/form}" th:object="${board}" method="GET">
         <input type="hidden" th:field="*{id}">

@@ -13,20 +13,22 @@ import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 @Slf4j
 @Service
 public class CustomOidcUserService implements OAuth2UserService<OidcUserRequest, OidcUser> {
-    private OidcUserService delegate = new OidcUserService();
+    private final OidcUserService delegate = new OidcUserService();
 
     @Autowired
     private MemberService memberService;
 
-    private static final List<String> clients = Arrays.asList("google");
+    private static final List<String> clients = Collections.singletonList("google");
 
     @Override
     public OidcUser loadUser(OidcUserRequest userRequest) throws OAuth2AuthenticationException {
@@ -38,7 +40,7 @@ public class CustomOidcUserService implements OAuth2UserService<OidcUserRequest,
         OidcUser socialUser = delegate.loadUser(userRequest);
         Map<String, Object> attributes = socialUser.getAttributes();
         String id = registrationId + "-" + attributes.getOrDefault("sub", null); // Id : 구글은 "sub"
-        Assert.isTrue(id != null, "loadUser :: not found OidcUser id");
+        Assert.isTrue(StringUtils.hasLength(id), "loadUser :: not found OidcUser id");
         log.info("loadUser :: OidcUser " + id + " loaded");
 
         Member member = memberService.getOrCreateSocialMember(id);

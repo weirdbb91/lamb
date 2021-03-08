@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.tags.Param;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -40,7 +41,7 @@ public class BoardController {
 
         Page<Board> boardPage = boardService.filteredBoardPage(searchText, pageable);
         log.info("filteredBoardPage : " + boardPage.toString());
-        if (boardPage == null) {
+        if (boardPage.isEmpty()) {
             log.info("filteredBoardPage is null");
             boardPage = boardService.getBoardPage(pageable);
             model.addAttribute("error", "search result error");
@@ -56,7 +57,7 @@ public class BoardController {
     }
 
     @GetMapping("/view")
-    public String getBoard(@RequestParam(required = false) Long id, Model model) {
+    public String getBoard(@RequestParam(required = false) Long id, Model model, Param param) {
         Board board = boardService.getBoard(id);
         try {
             Assert.isTrue(board != null, ERROR_BOARD_NOT_FOUND);
@@ -71,7 +72,7 @@ public class BoardController {
     }
 
     @GetMapping("/form")
-    public String boardForm(@RequestParam(required = false) Long id, Model model) {
+    public String boardForm(@RequestParam(required = false) Long id, Model model, Param param) {
         if (id == null) {
             model.addAttribute("board", new Board((long) session.getAttribute("member_id")));
             return "board/form";
@@ -82,14 +83,17 @@ public class BoardController {
             Assert.isTrue(isMemberId(board.getAuthorId()), ERROR_PERMISSION_DENIED);
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
-            return "board/list";
+
+            param.setName("id");
+            param.setValue(id.toString());
+            return "board/view";
         }
         model.addAttribute("board", board);
         return "board/form";
     }
 
     @PostMapping("/form")
-    public String formSubmit(@Valid Board form, Model model) {
+    public String formSubmit(@Valid Board form, Model model, Param param) {
         log.info("Submitted Board form : " + form.toString());
         try {
             Assert.isTrue(!form.getTitle().isEmpty(), ERROR_TITLE_EMPTY);
@@ -100,18 +104,15 @@ public class BoardController {
         }
 
         Board board = boardService.getBoard(form.getId());
-        if (board != null) {
-            if (!isMemberId(form.getAuthorId())) {
-                model.addAttribute("error", ERROR_PERMISSION_DENIED);
-                return "redirect:/board/list";
-            }
-            board.update(form);
-            log.info("updated well");
-        } else {
-            boardService.save(form);
-            log.info("saved well");
+        if (!isMemberId(form.getAuthorId())) {
+            model.addAttribute("error", ERROR_PERMISSION_DENIED);
+            return "board/view";
         }
-        return "redirect:/board/list";
+        boardService.save(form);
+        log.info("saved well");
+        param.setName("id");
+        param.setValue(String.valueOf(board.getId()));
+        return "board/view";
     }
 
     @DeleteMapping("/form")

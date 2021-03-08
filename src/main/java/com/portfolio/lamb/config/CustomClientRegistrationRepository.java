@@ -18,7 +18,7 @@ public class CustomClientRegistrationRepository implements ClientRegistrationRep
     @Autowired
     private Environment env;
 
-    private static final List<String> clients = Arrays.asList("google", "facebook", "github", "naver", "kakao");
+    public static final List<String> clients = Arrays.asList("google", "facebook", "github", "naver", "kakao");
     private static final String CLIENT_PROPERTY_KEY = "spring.security.oauth2.client.registration.";
 
     public ClientRegistrationRepository customInMemoryClientRegistrationRepository() {

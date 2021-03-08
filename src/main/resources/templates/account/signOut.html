@@ -3,7 +3,7 @@
 
 <div th:with="pageName='ChangePassword'"></div>
 <div th:with="mainComment='Change Password'"></div>
-<div th:with="requestAddress=@{/account/changePassword}"></div>
+<div th:with="requestAddress=@{/account/password}"></div>
 
 <head th:replace="fragments/common :: head('Sign Out')">head('title')</head>
 
@@ -13,18 +13,19 @@
 <nav th:replace="fragments/common :: nav_bar('Sign Out')">navigation bar</nav>
 
 <form class="form-signin w-75 m-auto my-5 p-5 bg-white border border-secondary rounded"
-      th:action="@{/account/signOut}" method="POST" style="max-width: 300px">
+      th:action="@{/account/signOut}" th:object="${memberDto}" method="POST" style="max-width: 300px">
+    <img class="mx-auto" th:src="@{/images/draw.png}" width="179" height="228" alt="logo"
+         src="https://drive.google.com/uc?export=view&id=1o9y1Ru-GX3ShEDk2SIUhbw9oSd00b6ug">
 
     <h1 class="h3 mb-3 fw-normal">Sign Out.</h1>
 
-    <div th:if="${error}" th:text="${error}"
-         class="alert alert-danger" role="alert">Error message.
-    </div>
 
-    <div th:if="${!session.member_social}">
-        <label for="inputPassword" class="visually-hidden">Password</label>
-        <input type="password" id="inputPassword" name="password" class="form-control"
-               placeholder="Password is required" required="">
+    <label for="inputPassword" class="visually-hidden">Password</label>
+    <input class="form-control" id="inputPassword" th:field="*{password}"
+           th:classappend="${#fields.hasErrors('password')} ? 'is-invalid'" type="password"
+           placeholder="Password is required" required="">
+    <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">
+        Password Error Message
     </div>
 
     <button class="w-100 mt-3 btn btn-lg btn-danger" type="submit">Sign Out</button>

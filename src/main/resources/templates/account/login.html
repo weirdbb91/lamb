@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="fragments/common :: head('Login')">head('title')</head>
 
@@ -10,13 +10,13 @@
 
 <form class="form-signin w-75 m-auto my-5 p-5 bg-white border border-secondary rounded"
       th:action="@{/account/login}" method="POST" style="max-width: 300px">
-    <img class="mx-auto" src="https://drive.google.com/uc?export=view&id=1o9y1Ru-GX3ShEDk2SIUhbw9oSd00b6ug" alt="logo"
-         th:src="@{/images/draw.png}" width="179" height="228">
+    <img class="mx-auto" th:src="@{/images/draw.png}" width="179" height="228" alt="logo"
+         src="https://drive.google.com/uc?export=view&id=1o9y1Ru-GX3ShEDk2SIUhbw9oSd00b6ug">
 
     <h1 class="h3 mb-3 fw-normal">Please login</h1>
 
-    <div th:if="${error}" th:text="${error}"
-         class="alert alert-danger" role="alert">Error message.</div>
+    <div th:if="${error}">
+        <p class="alert alert-danger" role="alert">Not Correct Input</p></div>
 
     <label for="inputUsername" class="visually-hidden">Username</label>
     <input type="text" id="inputUsername" name="username" class="form-control"

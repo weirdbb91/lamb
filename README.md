@@ -53,7 +53,7 @@
 
     - **update info**
         - bind Thymeleaf form
-        - validate member informations
+        - validate member information
   
     - **change password**
         - bind Thymeleaf form
@@ -63,6 +63,12 @@
         - delete Member Entity
         - clear session
         - revoke Member Authentication
+
+    - **validator**
+        - register
+        - update
+        - change password
+        - sign out
 
 - 📋 **Board**
     - create
@@ -96,7 +102,21 @@
 
 # 📝 오늘 할 일
 
-## 🚀 2020년 3월 5일
+## 🚀 2020년 3월 8일
+
+---
+에러 메시지가 제대로 출력되지 않고 있었다
+
+- 🔥 add validator
+- 🔥 fix forms and controllers 
+- 🔥 add a basic reply feature
+- ⏱ add "Search" form
+- ⏱ apply naver search API on "Search" form
+
+---
+
+
+## 2020년 3월 5일
 
 ---
 시간 가는줄 모르겠다
