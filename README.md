@@ -78,7 +78,7 @@
         - search
             - JPA Repository
         - pageable
-            - JPA Ropository
+            - JPA Ropesitory
             - Thymeleaf form set
 
 - 📋📌🔥 **Post**
@@ -89,7 +89,7 @@
         - search
             - JPA Repository
         - pageable
-            - JPA Ropository
+            - JPA Repository
             - Thymeleaf form set
 
 - 📋 **Reply**

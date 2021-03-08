@@ -116,7 +116,7 @@
                                                  type="submit" th:href="@{/account/update}">Update Info</a></li>
 
                     <li class="dropdown-item"><a class="text-center btn btn-outline-secondary mx-auto"
-                                                 th:if="${!session.member_social}"
+                                                 th:unless="${session.member_social}"
                                                  type="submit" th:href="@{/account/password}">Password</a></li>
 
                     <li>

@@ -61,7 +61,7 @@ public class BoardController {
     }
 
     @GetMapping("/view")
-    public String getBoard(@RequestParam Long id, Model model) {
+    public String getBoard(@RequestParam(required = false) Long id, Model model) {
         log.info("on view request : " + id);
         Board board = boardService.getBoard(id);
         try {
@@ -113,6 +113,7 @@ public class BoardController {
         }
         boardService.save(board.update(boardDto));
         log.info("saved well");
+        model.addAttribute("boardDto", new BoardDto(board));
         return "board/view";
     }
 

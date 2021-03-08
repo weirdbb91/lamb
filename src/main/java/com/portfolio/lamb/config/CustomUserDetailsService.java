@@ -1,7 +1,6 @@
 package com.portfolio.lamb.config;
 
 import com.portfolio.lamb.domain.user.MemberRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -33,6 +33,8 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
     }
 
     private void uploadUserInfoOnSession(Authentication authentication) {
+        log.info("Authentication toString() : " + authentication.toString());
+        log.info("Authentication getName() : " + authentication.getName());
         Member member = memberService.getMemberByUsername(authentication.getName());
         if (member != null) {
             log.info("Login success :: [" + member.getId() + "] " + member.getNickname() + " (" + member.getUsername() + ")");

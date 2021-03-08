@@ -30,7 +30,7 @@
     <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
         Email Error Message</div>
 
-    <div th:if="${!session.member_social}">
+    <div th:unless="${session.member_social}">
         <label for="inputPassword" class="visually-hidden">Password</label>
         <input class="form-control" id="inputPassword" th:field="*{password}"
                th:classappend="${#fields.hasErrors('password')} ? 'is-invalid'" type="password"

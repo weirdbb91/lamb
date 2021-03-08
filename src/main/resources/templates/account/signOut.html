@@ -19,13 +19,14 @@
 
     <h1 class="h3 mb-3 fw-normal">Sign Out.</h1>
 
-
-    <label for="inputPassword" class="visually-hidden">Password</label>
-    <input class="form-control" id="inputPassword" th:field="*{password}"
-           th:classappend="${#fields.hasErrors('password')} ? 'is-invalid'" type="password"
-           placeholder="Password is required" required="">
-    <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">
-        Password Error Message
+    <div th:unless="${session.member_social}">
+        <label for="inputPassword" class="visually-hidden">Password</label>
+        <input class="form-control" id="inputPassword" th:field="*{password}"
+               th:classappend="${#fields.hasErrors('password')} ? 'is-invalid'" type="password"
+               placeholder="Password is required" required="">
+        <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">
+            Password Error Message
+        </div>
     </div>
 
     <button class="w-100 mt-3 btn btn-lg btn-danger" type="submit">Sign Out</button>
