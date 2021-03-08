@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -40,5 +41,9 @@ public class BoardService {
 
     public Page<Board> filteredBoardPage(String searchText, Pageable pageable) {
         return boardRepository.findByTitleContainingOrContentContaining(searchText, searchText, pageable);
+    }
+
+    public Board getBoardByTitle(String title) {
+        return boardRepository.findByTitle(title).orElse(null);
     }
 }

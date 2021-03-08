@@ -35,6 +35,7 @@
 
 
 
+
     </style>
 </head>
 
@@ -48,30 +49,49 @@
 
 
     <div th:if="${error}" th:text="${error}"
-         class="alert alert-danger" role="alert">Error message.</div>
+         class="alert alert-danger" role="alert">Error message.
+    </div>
 
-    <form action="#" th:action="@{/board/form}" th:object="${board}" method="POST">
+
+    <form th:action="@{/board/form}" method="POST" th:object="${boardDto}">
         <input type="hidden" th:field="*{id}">
-        <input type="hidden" th:field="*{authorId}">
+        <input type="hidden" th:field="*{writerId}">
         <div class="mb-2 container m-auto text-end">
-            <span>Board ID : </span>
+            <span>Board No. : </span>
             <span th:text="*{id} ? *{id} : 'New'" class="me-5 text-muted">XX</span>
             <span>Author : </span>
-            <span th:text="*{authorId}" class="mx-1 text-muted">me</span>
+            <span th:text="*{writerId}" class="mx-1 text-muted">me</span>
         </div>
+
 
         <div class="form-group mb-2">
             <label for="title">Title</label>
-            <input type="text" class="form-control" id="title" th:field="*{title}"/>
-        </div>
-        <div class="form-group mb-2">
-            <label for="content">Content</label>
-            <textarea rows="3" class="form-control" id="content" th:field="*{content}"></textarea>
+            <input id="title" class="form-control" th:field="*{title}" type="text" autofocus=""
+                   th:classappend="${#fields.hasErrors('title')} ? 'is-invalid'">
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">
+                Title Error Message
+            </div>
         </div>
 
-        <div class="d-flex justify-content-end mb-2">
+        <div class="form-group mb-2">
+            <label for="content">Content</label>
+            <textarea rows="3" id="content" class="form-control" th:field="*{content}" type="text"
+                      th:classappend="${#fields.hasErrors('content')} ? 'is-invalid'"></textarea>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('content')}" th:errors="*{content}">
+                Content Error Message
+            </div>
+        </div>
+
+
+        <div class="d-flex justify-content-end mt-3 mb-2">
+            <a class="btn btn-danger mx-sm-3" th:if="*{id}"
+               th:classappend="${session.member_id} != *{writerId} ? 'disabled'"
+               method="DELETE"
+               th:onclick="|window.location.href='/board/delete?id=*{id}'|">Delete</a>
+
+            <a class="btn btn-white disabled mx-sm-3"> </a>
             <a type="button" class="btn btn-secondary mx-sm-3"
-               th:href="@{view(id=${board.id})}">Cancel</a>
+               th:href="*{id} ? @{view(id=*{id})} : @{list}">Cancel</a>
             <a class="btn btn-white disabled mx-sm-3"> </a>
             <button type="submit" class="btn btn-primary mx-sm-3">Submit</button>
         </div>

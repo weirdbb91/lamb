@@ -25,17 +25,17 @@ public class Board extends Timestamped {
     @Size(max = 1000)
     private String content;
 
-    private long authorId;
+    private long writerId;
 
     private boolean enabled = true;
 
-    public Board(long authorId) {
-        this.authorId = authorId;
+    public Board(long writerId) {
+        this.writerId = writerId;
     }
 
-    public long update(Board request) {
-        this.title = !request.getTitle().isEmpty() ? request.getTitle() : this.title;
-        this.content = !request.getContent().isEmpty() ? request.getContent() : this.content;
-        return this.id;
+    public Board update(BoardDto boardDto) {
+        this.title = !boardDto.getTitle().isEmpty() ? boardDto.getTitle() : this.title;
+        this.content = !boardDto.getContent().isEmpty() ? boardDto.getContent() : this.content;
+        return this;
     }
 }

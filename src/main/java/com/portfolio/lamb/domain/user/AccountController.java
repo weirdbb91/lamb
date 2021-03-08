@@ -51,10 +51,9 @@ public class AccountController {
     }
 
 
-    @GetMapping("/register")
-    public String register(Model model) {
+    @GetMapping({"/register", "/update", "/password", "/signOut"})
+    public void register(Model model) {
         model.addAttribute("memberDto", new MemberDto());
-        return "account/register";
     }
 
     @PostMapping("/register")
@@ -67,13 +66,6 @@ public class AccountController {
         memberDto.setPassword(passwordEncoder.encode(memberDto.getPassword()));
         memberService.save(new Member(memberDto));
         return "redirect:/";
-    }
-
-
-    @GetMapping("/update")
-    public String update(Model model) {
-        model.addAttribute("memberDto", new MemberDto());
-        return "account/update";
     }
 
     @Transactional
@@ -96,13 +88,6 @@ public class AccountController {
         return "redirect:/";
     }
 
-
-    @GetMapping("/password")
-    public String changePassword(Model model) {
-        model.addAttribute("memberDto", new MemberDto());
-        return "account/password";
-    }
-
     @Transactional
     @PostMapping("/password")
     public String password(Principal principal,
@@ -119,13 +104,6 @@ public class AccountController {
 
         member.updatePassword(passwordEncoder.encode(memberDto.getConfirm()));
         return "redirect:/";
-    }
-
-
-    @GetMapping("/signOut")
-    public String signOut(Model model) {
-        model.addAttribute("memberDto", new MemberDto());
-        return "account/signOut";
     }
 
     @Transactional

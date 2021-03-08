@@ -9,8 +9,13 @@
 <nav th:replace="fragments/common :: nav_bar('Board')">navigation bar</nav>
 
 
-    <div th:if="${error}" th:text="${error}"
-         class="alert alert-danger" role="alert">Error message.</div>
+<div th:if="${error}" th:text="${error}"
+     class="alert alert-danger" role="alert">Error message.
+</div>
+
+<!--<div th:if="${#fields.hasAnyErrors()}">-->
+<!--    <p th:each="err : ${#fields.allErrors()}" th:text="${err}">Error message.</p>-->
+<!--</div>-->
 
 <div class="container my-5 p-5 bg-white border border-secondary rounded">
     <h2>Board</h2>
