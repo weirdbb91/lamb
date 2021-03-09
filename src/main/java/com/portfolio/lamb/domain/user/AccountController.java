@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.security.Principal;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -50,6 +50,12 @@ public class AccountController {
         return "account/login";
     }
 
+    @GetMapping({"/nickname"})
+    public String getNickname(@RequestParam long id) {
+        Member member = memberService.getMemberById(id);
+        return member != null ? member.getNickname() : null;
+    }
+
 
     @GetMapping({"/register", "/update", "/password", "/signOut"})
     public void register(Model model) {
@@ -70,17 +76,24 @@ public class AccountController {
 
     @Transactional
     @PostMapping("/update")
-    public String update(Principal principal,
+    public String update(Authentication authentication,
                          @ModelAttribute @Valid MemberDto memberDto, BindingResult bindingResult) {
-        Member member = memberService.getMemberByUsername(principal.getName());
+        Optional<Member> optionalMember = memberService.getMemberByUsername(authentication.getName());
+        if (optionalMember.isEmpty()) {
+            bindingResult.rejectValue("member", "MEMBER_NOT_FOUND", "present member not found");
+            return "redirect:/board/list";
+        }
+        Member member = optionalMember.get();
         log.info("on update " + member.getUsername() + " request : " + memberDto.toString());
         if (StringUtils.hasLength(memberDto.getNickname())) {
             memberDto.setUsername(member.getUsername());
             memberDtoValidator.validateNickname(memberDto, bindingResult);
+            if (!member.isSocial()) {
+                memberDto.setComparePassword(member.getPassword());
+                memberDtoValidator.passwordCheck(memberDto, bindingResult);
+            }
+            if (bindingResult.hasErrors()) return "account/update";
         }
-        memberDto.setComparePassword(member.getPassword());
-        memberDtoValidator.passwordCheck(memberDto, bindingResult);
-        if (bindingResult.hasErrors()) return "account/update";
 
         member.updateNicknameOrEmail(memberDto);
         session.setAttribute("member_nickname", member.getNickname());
@@ -90,9 +103,14 @@ public class AccountController {
 
     @Transactional
     @PostMapping("/password")
-    public String password(Principal principal,
+    public String password(Authentication authentication,
                            @ModelAttribute @Valid MemberDto memberDto, BindingResult bindingResult) {
-        Member member = memberService.getMemberByUsername(principal.getName());
+        Optional<Member> optionalMember = memberService.getMemberByUsername(authentication.getName());
+        if (optionalMember.isEmpty()) {
+            bindingResult.rejectValue("member", "MEMBER_NOT_FOUND", "present member not found");
+            return "redirect:/board/list";
+        }
+        Member member = optionalMember.get();
         log.info("on password " + member.getUsername() + " request : " + memberDto.toString());
         if (member.isSocial()) return "redirect:/";
 
@@ -108,9 +126,14 @@ public class AccountController {
 
     @Transactional
     @PostMapping("/signOut")
-    public String signOut(Authentication authentication, Principal principal,
+    public String signOut(Authentication authentication,
                           @ModelAttribute @Valid MemberDto memberDto, BindingResult bindingResult) {
-        Member member = memberService.getMemberByUsername(principal.getName());
+        Optional<Member> optionalMember = memberService.getMemberByUsername(authentication.getName());
+        if (optionalMember.isEmpty()) {
+            bindingResult.rejectValue("member", "MEMBER_NOT_FOUND", "present member not found");
+            return "redirect:/board/list";
+        }
+        Member member = optionalMember.get();
         log.info("on signOut " + member.getUsername() + " request : " + memberDto.toString());
         memberDto.setComparePassword(member.getPassword());
         memberDtoValidator.passwordCheck(memberDto, bindingResult);

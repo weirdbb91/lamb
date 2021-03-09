@@ -28,9 +28,8 @@ public class MemberService {
     }
 
 
-    public Member getMemberByUsername(String username) {
-        return memberRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("not found username : " + username));
+    public Optional<Member> getMemberByUsername(String username) {
+        return memberRepository.findByUsername(username);
     }
 
     public Member getOrCreateSocialMember(String username) {
@@ -50,5 +49,9 @@ public class MemberService {
 
     public void deleteMember(Member member) {
         memberRepository.deleteById(member.getId());
+    }
+
+    public Member getMemberById(long id) {
+        return memberRepository.findById(id).orElse(null);
     }
 }

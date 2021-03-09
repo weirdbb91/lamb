@@ -1,6 +1,7 @@
 package com.portfolio.lamb.domain.board;
 
 import com.portfolio.lamb.domain.Timestamped;
+import com.portfolio.lamb.domain.user.Member;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -25,12 +26,14 @@ public class Board extends Timestamped {
     @Size(max = 1000)
     private String content;
 
-    private long writerId;
-
     private boolean enabled = true;
 
-    public Board(long writerId) {
-        this.writerId = writerId;
+    @ManyToOne
+    @JoinColumn(name = "writer_id")
+    private Member member;
+
+    public Board(Member member) {
+        this.member = member;
     }
 
     public Board update(BoardDto boardDto) {

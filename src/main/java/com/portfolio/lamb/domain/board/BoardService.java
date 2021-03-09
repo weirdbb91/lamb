@@ -21,8 +21,8 @@ public class BoardService {
         return boardRepository.save(board);
     }
 
-    public Board getBoard(long id) {
-        return boardRepository.findById(id).orElse(null);
+    public Optional<Board> getBoard(long id) {
+        return boardRepository.findById(id);
     }
 
     public List<Board> getList() {
@@ -43,7 +43,7 @@ public class BoardService {
         return boardRepository.findByTitleContainingOrContentContaining(searchText, searchText, pageable);
     }
 
-    public Board getBoardByTitle(String title) {
-        return boardRepository.findByTitle(title).orElse(null);
+    public Optional<Board> getBoardByTitle(String title) {
+        return boardRepository.findByTitle(title);
     }
 }

@@ -1,5 +1,6 @@
 package com.portfolio.lamb.domain.board;
 
+import com.portfolio.lamb.domain.user.Member;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,12 +16,12 @@ public class BoardDto {
 
     private String content;
 
-    private long writerId;
+    private Member member;
 
     public BoardDto(Board board) {
         this.id = board.getId();
         this.title = board.getTitle();
         this.content = board.getContent();
-        this.writerId = board.getWriterId();
+        this.member = board.getMember();
     }
 }

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Optional;
 
 @Slf4j
 @Component
@@ -35,8 +36,9 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
     private void uploadUserInfoOnSession(Authentication authentication) {
         log.info("Authentication toString() : " + authentication.toString());
         log.info("Authentication getName() : " + authentication.getName());
-        Member member = memberService.getMemberByUsername(authentication.getName());
-        if (member != null) {
+        Optional<Member> optionalMember = memberService.getMemberByUsername(authentication.getName());
+        if (optionalMember.isPresent()) {
+            Member member = optionalMember.get();
             log.info("Login success :: [" + member.getId() + "] " + member.getNickname() + " (" + member.getUsername() + ")");
             session.setAttribute("member_id", member.getId());
             session.setAttribute("member_username", member.getUsername());

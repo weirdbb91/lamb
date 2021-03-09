@@ -43,7 +43,7 @@ public class BoardValidator implements Validator {
             return;
         }
 
-        if (boardService.getBoardByTitle(boardDto.getTitle()) != null) {
+        if (boardService.getBoardByTitle(boardDto.getTitle()).isPresent()) {
             errors.rejectValue("title", "TITLE_DUP",
                     "the title name is already using");
         }

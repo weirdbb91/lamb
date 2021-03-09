@@ -6,6 +6,7 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -34,7 +35,7 @@ public class CustomClientRegistrationRepository implements ClientRegistrationRep
     public ClientRegistration findByRegistrationId(String registrationId) {
         String clientId = env.getProperty(CLIENT_PROPERTY_KEY + registrationId + ".client-id");
         String clientSecret = env.getProperty(CLIENT_PROPERTY_KEY + registrationId + ".client-secret");
-        if (clientId == null || clientSecret == null) return null;
+        if (!StringUtils.hasLength(clientId) || !StringUtils.hasLength(clientSecret)) return null;
 
         return CustomOAuth2Provider.REGISTRATION.getBuilder(registrationId)
                 .clientId(clientId).clientSecret(clientSecret).build();

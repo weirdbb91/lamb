@@ -12,6 +12,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
@@ -21,6 +23,7 @@ import java.util.Set;
 public class Member extends Timestamped {
 
     @Id
+    @OneToOne()
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
@@ -43,6 +46,9 @@ public class Member extends Timestamped {
     private boolean enabled = true;
 
     private boolean social = false;
+
+    @Transient
+    private Map<String, List> inventory;
 
     public Member(MemberDto memberDto) {
         this.role = Role.USER;

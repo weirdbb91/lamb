@@ -53,7 +53,7 @@
                    th:href="@{/board/list(page=${boardPage.pageable.pageNumber - 1}, searchText=${param.searchText})}">Prev</a>
             </li>
             <li class="page-item" th:classappend="${i == boardPage.pageable.pageNumber + 1} ? 'disabled'"
-                th:each="i : ${#numbers.sequence(startPageIdx, endPageIdx)}">
+                th:each="i : ${#numbers.sequence(boardPageStartIdx, boardPageEndIdx)}">
                 <a class="page-link" href="#" th:if="${i > 0}"
                    th:href="@{/board/list(page=${i - 1}, searchText=${param.searchText})}" th:text="${i}">1</a>
             </li>
