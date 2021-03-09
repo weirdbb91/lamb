@@ -10,35 +10,33 @@ import java.util.Optional;
 
 public abstract class BaseService<T extends MemberContent, ID, R extends BaseRepository> {
 
-    R baseRepository;
+    R repo;
 
-    public T save(T post) {
-        return (T) baseRepository.save(post);
-    }
-
-    public Optional<T> getById(long id) {
-        return baseRepository.findById(id);
+    public Page<T> getFilteredPage(String searchText, Pageable pageable) {
+        return repo.findByTitleContainingOrContentContaining(searchText, searchText, pageable);
     }
 
     public List<T> getList() {
-        return baseRepository.findByIsEnabled();
+        return repo.findAll();
     }
-
-    public long delete(long id) {
-        baseRepository.delete(id);
-        return id;
-    }
-
 
     public Page<T> getPage(Pageable pageable) {
-        return baseRepository.findAll(pageable);
+        return repo.findAll(pageable);
     }
 
-    public Page<T> getFilteredPage(String searchText, Pageable pageable) {
-        return baseRepository.findByTitleContainingOrContentContaining(searchText, searchText, pageable);
+    public Optional<T> getById(ID id) {
+        return repo.findById(id);
     }
 
     public Optional<T> getByTitle(String title) {
-        return baseRepository.findByTitle(title);
+        return repo.findByTitle(title);
+    }
+
+    public T save(T post) {
+        return (T) repo.save(post);
+    }
+
+    public void delete(ID id) {
+        repo.delete(id);
     }
 }

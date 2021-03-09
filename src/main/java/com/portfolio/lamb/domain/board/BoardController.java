@@ -3,7 +3,7 @@ package com.portfolio.lamb.domain.board;
 
 import com.portfolio.lamb.domain.user.Member;
 import com.portfolio.lamb.domain.user.MemberService;
-import com.portfolio.lamb.validator.BoardValidator;
+import com.portfolio.lamb.validator.BoardDtoValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -30,7 +30,7 @@ public class BoardController {
     private MemberService memberService;
 
     @Autowired
-    private BoardValidator boardValidator;
+    private BoardDtoValidator boardValidator;
 
 
     private final String ERROR_BOARD_IS_DISABLED = "disabled board";
