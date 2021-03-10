@@ -1,26 +1,45 @@
 package com.portfolio.lamb.service;
 
-import com.portfolio.lamb.domain.content.IContent;
+import com.portfolio.lamb.domain.content.MembersContent;
 import com.portfolio.lamb.repository.BaseRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface BaseService<T extends IContent> {
+public class BaseService<T extends MembersContent, R extends BaseRepository<T>> {
 
-    Page<T> getFilteredPage(String searchText, Pageable pageable);
+    @Autowired
+    R repo;
 
-    List<T> getList();
+    public Page<T> getFilteredPage(String searchText, Pageable pageable) {
+        return repo.findByTitleContainingOrContentContaining(searchText, searchText, pageable);
+    }
 
-    Page<T> getPage(Pageable pageable);
+    public List<T> getList() {
+        return repo.findAll();
+    }
 
-    Optional<T> getById(Long id);
+    public Page<T> getPage(Pageable pageable) {
+        return repo.findAll(pageable);
+    }
 
-    Optional<T> getByTitle(String title);
+    public Optional<T> getById(Long id) {
+        return repo.findById(id);
+    }
 
-    T save(T post);
+    public Optional<T> getByTitle(String title) {
+        return repo.findByTitle(title);
+    }
 
-    void deleteById(Long id);
+    public T save(T post) {
+        return repo.save(post);
+    }
+
+    public Long deleteById(Long id) {
+        repo.deleteById(id);
+        return id;
+    }
 }

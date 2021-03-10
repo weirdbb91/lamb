@@ -1,6 +1,6 @@
 package com.portfolio.lamb.domain.content;
 
-public interface IContentDto extends IBaseContainer {
+public interface MembersContentDto extends BaseContainer {
 
     Long getMemberId();
 }

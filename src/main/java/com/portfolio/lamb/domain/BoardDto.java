@@ -1,10 +1,14 @@
 package com.portfolio.lamb.domain;
 
-import com.portfolio.lamb.domain.content.IContent;
-import com.portfolio.lamb.domain.content.ContentDto;
+import com.portfolio.lamb.domain.content.MembersContent;
+import com.portfolio.lamb.domain.content.MembersContentDtoImpl;
 
-public class BoardDto extends ContentDto {
-    public BoardDto(IContent content) {
-        super(content);
+public class BoardDto extends MembersContentDtoImpl {
+    public BoardDto(Long memberId) {
+        super(memberId);
+    }
+
+    public BoardDto(MembersContent membersContent) {
+        super(membersContent);
     }
 }

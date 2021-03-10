@@ -1,6 +1,6 @@
 package com.portfolio.lamb.domain.content;
 
-public interface IBaseContainer {
+public interface BaseContainer {
 
     Long getId();
 
@@ -9,4 +9,6 @@ public interface IBaseContainer {
     String getContent();
 
     boolean isEnabled();
+
+    BaseContainer update(BaseContainer baseContainer);
 }

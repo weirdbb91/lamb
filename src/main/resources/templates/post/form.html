@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="fragments/common :: head('View')">head('title')
+<head th:replace="fragments/common :: head('Form')">head('title')
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -33,22 +33,27 @@
             padding: 0;
         }
 
+
+
+
     </style>
 </head>
 
 <body>
 
 <div th:replace="fragments/common :: background"/>
-<nav th:replace="fragments/common :: nav_bar('View')">navigation bar</nav>
+<nav th:replace="fragments/common :: nav_bar('Form')">navigation bar</nav>
 
 <div class="container m-auto my-5 p-5 bg-white border border-secondary rounded">
-    <h2>Board View</h2>
+    <h2>Board Form</h2>
 
 
     <div th:if="${error}" th:text="${error}"
-         class="alert alert-danger" role="alert">Error message.</div>
+         class="alert alert-danger" role="alert">Error message.
+    </div>
 
-    <form action="#" th:action="@{/board/form}" th:object="${boardDto}" method="GET">
+
+    <form th:action="@{/post/form}" method="POST" th:object="${postDto}">
         <input type="hidden" th:field="*{id}">
         <input type="hidden" th:field="*{memberId}">
         <div class="mb-2 container m-auto text-end">
@@ -58,18 +63,37 @@
             <span th:text="*{memberId}" class="mx-1 text-muted">me</span>
         </div>
 
-        <div class="form-group mb-2 m-auto border-bottom border-secondary bg-light" style="min-height: 38px;">
-            <div id="title" th:text="'Title : ' + *{title}">Title : Robinson Crusoe</div>
-        </div>
-        <div class="form-group mb-2 m-auto bg-light" style="min-height: 86px;">
-            <div id="content" th:text="*{content}">He's a poor guy.</div>
+
+        <div class="form-group mb-2">
+            <label for="title">Title</label>
+            <input id="title" class="form-control" th:field="*{title}" type="text" autofocus=""
+                   th:classappend="${#fields.hasErrors('title')} ? 'is-invalid'">
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">
+                Title Error Message
+            </div>
         </div>
 
-        <div class="d-flex justify-content-end mt-4">
-            <a type="button" class="btn btn-secondary mx-sm-3" th:href="@{list}">Back</a>
+        <div class="form-group mb-2">
+            <label for="content">Content</label>
+            <textarea rows="3" id="content" class="form-control" th:field="*{content}" type="text"
+                      th:classappend="${#fields.hasErrors('content')} ? 'is-invalid'"></textarea>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('content')}" th:errors="*{content}">
+                Content Error Message
+            </div>
+        </div>
+
+
+        <div class="d-flex justify-content-end mt-3 mb-2">
+            <a class="btn btn-danger mx-sm-3" th:if="*{id}"
+               th:classappend="${session.member_id} != *{memberId} ? 'disabled'"
+               method="DELETE"
+               th:onclick="|window.location.href='/post/delete?id=*{id}'|">Delete</a>
+
             <a class="btn btn-white disabled mx-sm-3"> </a>
-            <button type="submit" class="btn btn-primary mx-sm-3"
-            th:classappend="${session.member_id} != *{memberId} ? 'disabled'">Edit</button>
+            <a type="button" class="btn btn-secondary mx-sm-3"
+               th:href="*{id} ? @{view(id=*{id})} : @{list}">Cancel</a>
+            <a class="btn btn-white disabled mx-sm-3"> </a>
+            <button type="submit" class="btn btn-primary mx-sm-3">Submit</button>
         </div>
     </form>
 

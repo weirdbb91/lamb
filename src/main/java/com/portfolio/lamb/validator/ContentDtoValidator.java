@@ -1,11 +1,11 @@
 package com.portfolio.lamb.validator;
 
-import com.portfolio.lamb.domain.content.IContentDto;
+import com.portfolio.lamb.domain.content.MembersContentDtoImpl;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 
-public abstract class ContentDtoValidator<D extends IContentDto> implements Validator {
+public abstract class ContentDtoValidator<D extends MembersContentDtoImpl> implements Validator {
 
     protected final String DEFAULT = "error";
     protected final String TITLE = "title";

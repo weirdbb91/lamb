@@ -11,36 +11,5 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class BoardService implements BaseService<Board> {
-
-    @Autowired
-    private BoardRepository repo;
-
-    public Page<Board> getFilteredPage(String searchText, Pageable pageable) {
-        return repo.findByTitleContainingOrContentContaining(searchText, searchText, pageable);
-    }
-
-    public List<Board> getList() {
-        return repo.findAll();
-    }
-
-    public Page<Board> getPage(Pageable pageable) {
-        return repo.findAll(pageable);
-    }
-
-    public Optional<Board> getById(Long id) {
-        return repo.findById(id);
-    }
-
-    public Optional<Board> getByTitle(String title) {
-        return repo.findByTitle(title);
-    }
-
-    public Board save(Board post) {
-        return repo.save(post);
-    }
-
-    public void deleteById(Long id) {
-        repo.deleteById(id);
-    }
+public class BoardService extends BaseService<Board, BoardRepository> {
 }
