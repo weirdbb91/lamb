@@ -68,8 +68,8 @@ public class LambSecurityConfig extends WebSecurityConfigurerAdapter {
                             "/css/**",
                             "/images/**")
                         .permitAll()
-                    .anyRequest()
-                        .authenticated()
+//                    .anyRequest()
+//                        .authenticated()
                 .and()
                 .formLogin()
                     .loginPage("/account/login")

@@ -48,7 +48,7 @@
     <div th:if="${error}" th:text="${error}"
          class="alert alert-danger" role="alert">Error message.</div>
 
-    <form action="#" th:action="@{/board/form}" th:object="${boardDto}" method="GET">
+    <form action="#" th:action="@{/post/form}" th:object="${postDto}" method="GET">
         <input type="hidden" th:field="*{id}">
         <input type="hidden" th:field="*{writerId}">
         <div class="mb-2 container m-auto text-end">

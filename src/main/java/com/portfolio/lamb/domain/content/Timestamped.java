@@ -1,4 +1,4 @@
-package com.portfolio.lamb.domain;
+package com.portfolio.lamb.domain.content;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;

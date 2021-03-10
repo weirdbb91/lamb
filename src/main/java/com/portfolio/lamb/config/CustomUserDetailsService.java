@@ -1,6 +1,6 @@
 package com.portfolio.lamb.config;
 
-import com.portfolio.lamb.domain.user.MemberRepository;
+import com.portfolio.lamb.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

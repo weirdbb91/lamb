@@ -64,10 +64,10 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="/" th:href="@{/}">Home</a>
+                    <a class="nav-link" href="/" th:href="@{/index.html}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/board/list" th:href="@{/board/list}">Board</a>
+                    <a class="nav-link" href="/post/list" th:href="@{/post/list}">Board</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button"
@@ -89,10 +89,10 @@
             </ul>
 
 
-            <a class="btn btn-outline-secondary mx-2" type="submit" th:href="@{/account/login}"
+            <a class="btn btn-outline-secondary mx-2" type="submit" th:href="@{/account/login.html}"
                sec:authorize="!isAuthenticated()">Login</a>
 
-            <a class="btn btn-outline-secondary mx-2" type="submit" th:href="@{/account/register}"
+            <a class="btn btn-outline-secondary mx-2" type="submit" th:href="@{/account/register.html}"
                sec:authorize="!isAuthenticated()">Sign in</a>
 
 
@@ -113,11 +113,11 @@
                                                  th:text="${session.member_email}">Email</a></li>
 
                     <li class="dropdown-item"><a class="btn btn-outline-secondary mx-auto"
-                                                 type="submit" th:href="@{/account/update}">Update Info</a></li>
+                                                 type="submit" th:href="@{/account/update.html}">Update Info</a></li>
 
                     <li class="dropdown-item"><a class="text-center btn btn-outline-secondary mx-auto"
                                                  th:unless="${session.member_social}"
-                                                 type="submit" th:href="@{/account/password}">Password</a></li>
+                                                 type="submit" th:href="@{/account/password.html}">Password</a></li>
 
                     <li>
                         <hr class="dropdown-divider">
@@ -125,7 +125,7 @@
 
                     <li class="dropdown-item"><a class="btn btn-outline-danger mx-auto"
                                                  style="font-size: 0.2rem; height: 30px;"
-                                                 type="submit" th:href="@{/account/signOut}">Sign Out</a></li>
+                                                 type="submit" th:href="@{/account/signOut.html}">Sign Out</a></li>
                 </ul>
             </div>
             <form class="mx-3 d-flex" th:action="@{/logout}" method="POST" sec:authorize="isAuthenticated()">

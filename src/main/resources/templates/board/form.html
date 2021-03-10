@@ -53,7 +53,7 @@
     </div>
 
 
-    <form th:action="@{/board/form}" method="POST" th:object="${boardDto}">
+    <form th:action="@{/post/form}" method="POST" th:object="${postDto}">
         <input type="hidden" th:field="*{id}">
         <input type="hidden" th:field="*{writerId}">
         <div class="mb-2 container m-auto text-end">
@@ -74,11 +74,11 @@
         </div>
 
         <div class="form-group mb-2">
-            <label for="content">Content</label>
+            <label for="content">BaseContainer</label>
             <textarea rows="3" id="content" class="form-control" th:field="*{content}" type="text"
                       th:classappend="${#fields.hasErrors('content')} ? 'is-invalid'"></textarea>
             <div class="invalid-feedback" th:if="${#fields.hasErrors('content')}" th:errors="*{content}">
-                Content Error Message
+                BaseContainer Error Message
             </div>
         </div>
 
@@ -87,7 +87,7 @@
             <a class="btn btn-danger mx-sm-3" th:if="*{id}"
                th:classappend="${session.member_id} != *{writerId} ? 'disabled'"
                method="DELETE"
-               th:onclick="|window.location.href='/board/delete?id=*{id}'|">Delete</a>
+               th:onclick="|window.location.href='/post/delete?id=*{id}'|">Delete</a>
 
             <a class="btn btn-white disabled mx-sm-3"> </a>
             <a type="button" class="btn btn-secondary mx-sm-3"

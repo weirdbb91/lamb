@@ -1,17 +1,17 @@
 package com.portfolio.lamb.validator;
 
-import com.portfolio.lamb.domain.BoardDto;
+import com.portfolio.lamb.domain.PostDto;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 
 @Component
-public class BoardDtoValidator extends ContentDtoValidator<BoardDto> implements Validator {
+public class PostDtoValidator extends ContentDtoValidator<PostDto> implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return BoardDto.class.equals(clazz);
+        return PostDto.class.equals(clazz);
     }
 
     @Override

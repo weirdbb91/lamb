@@ -1,18 +1,19 @@
 package com.portfolio.lamb.controller;
 
-import com.portfolio.lamb.domain.MemberContent;
-import com.portfolio.lamb.domain.MemberContentDto;
-import com.portfolio.lamb.domain.MemberContentInterface;
-import com.portfolio.lamb.domain.user.Member;
-import com.portfolio.lamb.domain.user.MemberService;
+import com.portfolio.lamb.domain.Member;
+import com.portfolio.lamb.domain.content.Content;
+import com.portfolio.lamb.domain.content.ContentDto;
+import com.portfolio.lamb.domain.content.IContent;
+import com.portfolio.lamb.domain.content.IContentDto;
 import com.portfolio.lamb.service.BaseService;
-import com.portfolio.lamb.validator.MemberContentDtoValidator;
+import com.portfolio.lamb.service.MemberService;
+import com.portfolio.lamb.validator.ContentDtoValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -24,19 +25,20 @@ import javax.validation.Valid;
 import java.util.Optional;
 
 @Slf4j
-public abstract class BaseController<D extends MemberContentInterface, ID, S extends BaseService, V extends MemberContentDtoValidator> {
+public abstract class BaseController<T extends IContent, D extends IContentDto, S extends BaseService<T>, V extends ContentDtoValidator<D>> {
 
     @Autowired
     private MemberService memberService;
 
     @Autowired
-    private Authentication auth;
-
     S service;
 
+    @Autowired
     V validator;
 
     protected abstract String getThisTypeName();
+
+    protected abstract IContent getNewContent(Member member);
 
     private final String ERROR_KEY = "ERROR";
     private final String ERROR_NOT_FOUND = "not found";
@@ -63,14 +65,14 @@ public abstract class BaseController<D extends MemberContentInterface, ID, S ext
 
 
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
-    public D getById(@RequestParam(required = false) Long id, Model model) {
-        log.info("on {} {} request : {}", getThisTypeName(), "GET/view", id);
+    public D getById(@RequestParam Long id, Model model) {
+        log.info("on {} {} request : {}", getThisTypeName(), "GET", id);
 
-        Optional optional = service.getById(id);
+        Optional<T> optional = service.getById(id);
         if (!isExist(optional, model)) return null;
         if (isBanned(optional, model)) return null;
 
-        return optionalContentToDto(optional);
+        return (D) new ContentDto(optional.get());
     }
 
 
@@ -78,15 +80,15 @@ public abstract class BaseController<D extends MemberContentInterface, ID, S ext
     public D getForm(@RequestParam(required = false) Long id, Model model) {
         log.info("on {} {} request : {}", getThisTypeName(), "GET/form", id);
 
-        if (id == null || id == 0L) return newDto(getThisMember().getId());
+        if (id == null || id == 0L) return (D) new ContentDto(getThisMember().getId());
 
-        Optional optional = service.getById(id);
+        Optional<T> optional = service.getById(id);
         if (!isExist(optional, model)) return null;
 
-        D dto = optionalContentToDto(optional);
-        if (!isOwner(dto.getMemberId(), model)) return null;
+        T content = optional.get();
+        if (!isOwner(content.getAuthorId(), model)) return null;
 
-        return dto;
+        return (D) new ContentDto(content);
     }
 
 
@@ -98,42 +100,42 @@ public abstract class BaseController<D extends MemberContentInterface, ID, S ext
         if (bindingResult.hasErrors()) return 0L;
         if (!isOwner(dto.getMemberId(), model)) return 0L;
 
-        return service.save(new MemberContent((MemberContentDto) dto)).getId();
+        return service.save((T) getNewContent(getThisMember()).update(dto)).getId();
     }
 
 
-    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
     public long deleteById(@RequestParam Long id, Model model) {
-        log.info("on {} {} request : {}", getThisTypeName(), "DELETE/delete", id);
+        log.info("on {} {} request : {}", getThisTypeName(), "DELETE", id);
 
-        Optional<MemberContentInterface> optional = service.getById(id);
+        Optional<T> optional = service.getById(id);
         if (!isExist(optional, model)) return 0L;
-        if (!isOwner(optional.get().getMemberId(), model)) return 0L;
+        if (!isOwner(optional.get().getAuthorId(), model)) return 0L;
 
-        service.delete(id);
+        service.deleteById(id);
         return id;
     }
 
 
-    protected boolean isEmptyPage(Page page, Model model) {
+    private boolean isEmptyPage(Page page, Model model) {
         if (!page.isEmpty()) return true;
         model.addAttribute(getThisTypeName().toUpperCase() + "_" + ERROR_KEY, ERROR_NOT_FOUND);
         return false;
     }
 
-    protected boolean isBanned(Optional optional, Model model) {
+    private boolean isBanned(Optional optional, Model model) {
         if (((D) optional.get()).isEnabled()) return true;
         model.addAttribute(getThisTypeName().toUpperCase() + "_" + ERROR_KEY, ERROR_DISABLED_CONTENT);
         return false;
     }
 
-    protected boolean isExist(Optional optional, Model model) {
+    private boolean isExist(Optional optional, Model model) {
         if (optional.isPresent()) return true;
         model.addAttribute(getThisTypeName().toUpperCase() + "_" + ERROR_KEY, ERROR_NOT_FOUND);
         return false;
     }
 
-    protected boolean isOwner(long contentMemberId, Model model) {
+    private boolean isOwner(Long contentMemberId, Model model) {
         Member member = getThisMember();
         if (member == null || contentMemberId != member.getId()) {
             model.addAttribute(getThisTypeName().toUpperCase() + "_" + ERROR_KEY, ERROR_PERMISSION_DENIED);
@@ -142,15 +144,8 @@ public abstract class BaseController<D extends MemberContentInterface, ID, S ext
         return true;
     }
 
-    protected Member getThisMember() {
-        return memberService.getMemberByUsername(auth.getName()).orElse(null);
-    }
-
-    protected D optionalContentToDto(Optional optional) {
-        return (D) new MemberContentDto((MemberContentInterface) optional.get());
-    }
-
-    protected D newDto(long memberId) {
-        return (D) new MemberContentDto(memberId);
+    private Member getThisMember() {
+        return memberService.getMemberByUsername(SecurityContextHolder.getContext()
+                .getAuthentication().getName()).orElse(null);
     }
 }

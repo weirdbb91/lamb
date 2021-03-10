@@ -1,8 +1,8 @@
 package com.portfolio.lamb.validator;
 
 import com.portfolio.lamb.config.CustomClientRegistrationRepository;
-import com.portfolio.lamb.domain.user.MemberDto;
-import com.portfolio.lamb.domain.user.MemberService;
+import com.portfolio.lamb.domain.MemberDto;
+import com.portfolio.lamb.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;

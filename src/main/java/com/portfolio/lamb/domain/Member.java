@@ -1,6 +1,6 @@
-package com.portfolio.lamb.domain.user;
+package com.portfolio.lamb.domain;
 
-import com.portfolio.lamb.domain.Timestamped;
+import com.portfolio.lamb.domain.content.Timestamped;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -13,7 +13,6 @@ import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
@@ -23,7 +22,6 @@ import java.util.Set;
 public class Member extends Timestamped {
 
     @Id
-    @OneToOne()
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
@@ -47,8 +45,11 @@ public class Member extends Timestamped {
 
     private boolean social = false;
 
-    @Transient
-    private Map<String, List> inventory;
+    @OneToMany(mappedBy = "member")
+    private List<Board> boardList;
+
+    @OneToMany(mappedBy = "member")
+    private List<Post> postList;
 
     public Member(MemberDto memberDto) {
         this.role = Role.USER;

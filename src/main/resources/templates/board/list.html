@@ -21,7 +21,7 @@
     <h2>Board</h2>
     <div>total : <span th:text="${boardPage.totalElements}"></span></div>
 
-    <form class="form-inline d-flex justify-content-end" method="GET" th:action="@{/board/list}">
+    <form class="form-inline d-flex justify-content-end" method="GET" th:action="@{/post/list}">
         <div class="form-group mx-sm-3 mb-2">
             <input type="text" class="form-control" id="searchText" name="searchText" th:value="${param.searchText}">
         </div>
@@ -33,15 +33,15 @@
         <tr>
             <th scope="col">No.</th>
             <th scope="col">Title</th>
-            <th scope="col">Content</th>
+            <th scope="col">BaseContainer</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="board : ${boardPage}">
+        <tr th:each="post : ${boardPage}">
 
-            <th th:text="${board.id}">1</th>
-            <th><a th:href="@{view(id=${board.id})}" th:text="${board.title}">Robinson Crusoe</a></th>
-            <th th:text="${board.content}">He's a poor guy.</th>
+            <th th:text="${post.id}">1</th>
+            <th><a th:href="@{view(id=${post.id})}" th:text="${post.title}">Robinson Crusoe</a></th>
+            <th th:text="${post.content}">He's a poor guy.</th>
         </tr>
         </tbody>
     </table>
@@ -50,17 +50,17 @@
         <ul class="pagination justify-content-center">
             <li class="page-item" th:classappend="${0 >= boardPage.pageable.pageNumber} ? 'disabled'">
                 <a class="page-link" href="#"
-                   th:href="@{/board/list(page=${boardPage.pageable.pageNumber - 1}, searchText=${param.searchText})}">Prev</a>
+                   th:href="@{/post/list(page=${boardPage.pageable.pageNumber - 1}, searchText=${param.searchText})}">Prev</a>
             </li>
             <li class="page-item" th:classappend="${i == boardPage.pageable.pageNumber + 1} ? 'disabled'"
                 th:each="i : ${#numbers.sequence(boardPageStartIdx, boardPageEndIdx)}">
                 <a class="page-link" href="#" th:if="${i > 0}"
-                   th:href="@{/board/list(page=${i - 1}, searchText=${param.searchText})}" th:text="${i}">1</a>
+                   th:href="@{/post/list(page=${i - 1}, searchText=${param.searchText})}" th:text="${i}">1</a>
             </li>
             <li class="page-item"
                 th:classappend="${boardPage.totalPages <= boardPage.pageable.pageNumber + 1} ? 'disabled'">
                 <a class="page-link" href="#"
-                   th:href="@{/board/list(page=${boardPage.pageable.pageNumber + 1}, searchText=${param.searchText})}">Next</a>
+                   th:href="@{/post/list(page=${boardPage.pageable.pageNumber + 1}, searchText=${param.searchText})}">Next</a>
             </li>
         </ul>
     </nav>

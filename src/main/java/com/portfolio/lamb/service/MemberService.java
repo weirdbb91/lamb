@@ -1,8 +1,10 @@
-package com.portfolio.lamb.domain.user;
+package com.portfolio.lamb.service;
 
+import com.portfolio.lamb.domain.Member;
+import com.portfolio.lamb.repository.MemberRepository;
+import com.portfolio.lamb.domain.Role;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

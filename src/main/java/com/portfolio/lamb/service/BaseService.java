@@ -1,6 +1,6 @@
 package com.portfolio.lamb.service;
 
-import com.portfolio.lamb.domain.MemberContent;
+import com.portfolio.lamb.domain.content.IContent;
 import com.portfolio.lamb.repository.BaseRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -8,35 +8,19 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class BaseService<T extends MemberContent, ID, R extends BaseRepository> {
+public interface BaseService<T extends IContent> {
 
-    R repo;
+    Page<T> getFilteredPage(String searchText, Pageable pageable);
 
-    public Page<T> getFilteredPage(String searchText, Pageable pageable) {
-        return repo.findByTitleContainingOrContentContaining(searchText, searchText, pageable);
-    }
+    List<T> getList();
 
-    public List<T> getList() {
-        return repo.findAll();
-    }
+    Page<T> getPage(Pageable pageable);
 
-    public Page<T> getPage(Pageable pageable) {
-        return repo.findAll(pageable);
-    }
+    Optional<T> getById(Long id);
 
-    public Optional<T> getById(ID id) {
-        return repo.findById(id);
-    }
+    Optional<T> getByTitle(String title);
 
-    public Optional<T> getByTitle(String title) {
-        return repo.findByTitle(title);
-    }
+    T save(T post);
 
-    public T save(T post) {
-        return (T) repo.save(post);
-    }
-
-    public void delete(ID id) {
-        repo.delete(id);
-    }
+    void deleteById(Long id);
 }

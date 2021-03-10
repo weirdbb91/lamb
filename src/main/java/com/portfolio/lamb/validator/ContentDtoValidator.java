@@ -1,11 +1,11 @@
 package com.portfolio.lamb.validator;
 
-import com.portfolio.lamb.domain.MemberContentDto;
+import com.portfolio.lamb.domain.content.IContentDto;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 
-public abstract class MemberContentDtoValidator<T extends MemberContentDto> implements Validator {
+public abstract class ContentDtoValidator<D extends IContentDto> implements Validator {
 
     protected final String DEFAULT = "error";
     protected final String TITLE = "title";
@@ -21,20 +21,26 @@ public abstract class MemberContentDtoValidator<T extends MemberContentDto> impl
     protected final String MSG_SIZE_LONG = "too long size";
 
 
-    protected abstract int getTitleMaxSize();
+    protected int getTitleMaxSize() {
+        return 15;
+    }
 
-    protected abstract int getContentMaxSize();
+    protected int getContentMaxSize() {
+        return 1000;
+    }
+
+    ;
 
     protected void validateTitleAndContent(Object object, Errors errors) {
 
-        T obj = (T) object;
+        D dto = (D) object;
 
-        if (obj == null) {
+        if (dto == null) {
             errors.rejectValue(DEFAULT, CODE_NOT_FOUND, MSG_NOT_FOUND);
             return;
         }
 
-        String title = obj.getTitle();
+        String title = dto.getTitle();
 
         if (isThisEmpty(title))
             errors.rejectValue(TITLE, CODE_VALUE_EMPTY, MSG_VALUE_EMPTY);
@@ -43,7 +49,7 @@ public abstract class MemberContentDtoValidator<T extends MemberContentDto> impl
             errors.rejectValue(TITLE, CODE_SIZE_LONG, MSG_SIZE_LONG);
 
 
-        String content = obj.getContent();
+        String content = dto.getContent();
 
         if (content.length() > getContentMaxSize())
             errors.rejectValue(CONTENT, CODE_SIZE_LONG, MSG_SIZE_LONG);
