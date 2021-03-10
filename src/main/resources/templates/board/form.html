@@ -55,12 +55,12 @@
 
     <form th:action="@{/board/form}" method="POST" th:object="${boardDto}">
         <input type="hidden" th:field="*{id}">
-        <input type="hidden" th:field="*{writerId}">
+        <input type="hidden" th:field="*{memberId}">
         <div class="mb-2 container m-auto text-end">
             <span>Board No. : </span>
             <span th:text="*{id} ? *{id} : 'New'" class="me-5 text-muted">XX</span>
             <span>Author : </span>
-            <span th:text="*{writerId}" class="mx-1 text-muted">me</span>
+            <span th:text="*{memberId}" class="mx-1 text-muted">me</span>
         </div>
 
 
@@ -85,7 +85,7 @@
 
         <div class="d-flex justify-content-end mt-3 mb-2">
             <a class="btn btn-danger mx-sm-3" th:if="*{id}"
-               th:classappend="${session.member_id} != *{writerId} ? 'disabled'"
+               th:classappend="${session.member_id} != *{memberId} ? 'disabled'"
                method="DELETE"
                th:onclick="|window.location.href='/board/delete?id=*{id}'|">Delete</a>
 

@@ -24,6 +24,11 @@ public class ContentDto implements IContentDto {
         this.title = content.getTitle();
         this.content = content.getContent();
         this.enabled = content.isEnabled();
-        this.memberId = content.getAuthorId();
+        this.memberId = content.getMemberId();
+    }
+
+    @Override
+    public IContentDto extract(IContent content) {
+        return null;
     }
 }
