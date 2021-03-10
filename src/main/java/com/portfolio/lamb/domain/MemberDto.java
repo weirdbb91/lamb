@@ -1,4 +1,4 @@
-package com.portfolio.lamb.domain.user;
+package com.portfolio.lamb.domain;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

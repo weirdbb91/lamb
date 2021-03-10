@@ -1,7 +1,10 @@
-package com.portfolio.lamb.domain.user;
+package com.portfolio.lamb.controller;
 
 
 import com.portfolio.lamb.config.CustomClientRegistrationRepository;
+import com.portfolio.lamb.domain.Member;
+import com.portfolio.lamb.domain.MemberDto;
+import com.portfolio.lamb.service.MemberService;
 import com.portfolio.lamb.validator.MemberDtoValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

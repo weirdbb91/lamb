@@ -1,7 +1,7 @@
 package com.portfolio.lamb.config;
 
-import com.portfolio.lamb.domain.user.Member;
-import com.portfolio.lamb.domain.user.MemberService;
+import com.portfolio.lamb.domain.Member;
+import com.portfolio.lamb.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
