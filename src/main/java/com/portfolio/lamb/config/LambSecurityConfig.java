@@ -1,6 +1,7 @@
 package com.portfolio.lamb.config;
 
-import lombok.extern.slf4j.Slf4j;
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,9 +15,6 @@ import org.springframework.security.web.authentication.rememberme.JdbcTokenRepos
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
-import javax.sql.DataSource;
-
-@Slf4j
 @Configuration
 @EnableWebSecurity
 public class LambSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -24,8 +22,8 @@ public class LambSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private CustomLoginSuccessHandler customLoginSuccessHandler;
 
-    @Autowired
-    private CustomLoginFailureHandler customLoginFailureHandler;
+    // @Autowired
+    // private CustomLoginFailureHandler customLoginFailureHandler;
 
     @Autowired
     private CustomClientRegistrationRepository clientRegistrationRepository;
@@ -68,8 +66,8 @@ public class LambSecurityConfig extends WebSecurityConfigurerAdapter {
                             "/css/**",
                             "/images/**")
                         .permitAll()
-//                    .anyRequest()
-//                        .authenticated()
+                    .anyRequest()
+                        .authenticated()
                 .and()
                 .formLogin()
                     .loginPage("/account/login")

@@ -1,9 +1,8 @@
 package com.portfolio.lamb.controller;
 
 import com.portfolio.lamb.domain.Member;
-import com.portfolio.lamb.domain.content.ContentDto;
-import com.portfolio.lamb.domain.content.IContent;
-import com.portfolio.lamb.domain.content.IContentDto;
+import com.portfolio.lamb.domain.content.MembersContent;
+import com.portfolio.lamb.domain.content.MembersContentDto;
 import com.portfolio.lamb.service.BaseService;
 import com.portfolio.lamb.service.MemberService;
 import com.portfolio.lamb.validator.ContentDtoValidator;
@@ -15,10 +14,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -29,7 +25,7 @@ import java.util.Optional;
  * "/api/list" GET fot searched content page
  */
 @Slf4j
-public abstract class BaseController<T extends IContent, D extends IContentDto, S extends BaseService, V extends ContentDtoValidator<D>> {
+public abstract class BaseController<T extends MembersContent, D extends MembersContentDto, S extends BaseService, V extends ContentDtoValidator<D>> {
 
     @Autowired
     private MemberService memberService;
@@ -51,16 +47,25 @@ public abstract class BaseController<T extends IContent, D extends IContentDto, 
     private final String ERROR_DISABLED_CONTENT = "disabled content";
     private final String ERROR_PERMISSION_DENIED = "wrong creator permission denied";
 
+    @GetMapping
+    public String main(Model model) {
+        model.addAttribute("contentTypeName", getThisTypeName());
+        return getThisTypeName() + "/main";
+    }
 
     /**
      * @param id contentId
-     * @return selected content; not valid -> null
+     * @return selected content; 0L -> new form
      */
     @RequestMapping(value = "/api", method = RequestMethod.GET)
-    public D getContent(@RequestParam(required = false) Long id, Model model) {
+    public D get(@RequestParam Long id, Model model) {
         log.info("{} {} request :: {}", "GET", getThisTypeName(), id);
 
-        if (id == null || id == 0L) return (D) new ContentDto(getThisMember().getId());
+        if (id == 0L) {
+            D dto = getNewDto();
+            dto.setMemberId(getThisMember().getId());
+            return dto;
+        }
 
         Optional<T> optionalContent = service.getById(id);
         if (!isExist(optionalContent, model)) return null;
@@ -69,7 +74,7 @@ public abstract class BaseController<T extends IContent, D extends IContentDto, 
         T content = optionalContent.get();
         if (!isOwner(content.getMemberId(), model)) return null;
 
-        return getNewDto().extract(optionalContent.get());
+        return (D) getNewDto().extract(optionalContent.get());
     }
 
     /**
@@ -77,7 +82,7 @@ public abstract class BaseController<T extends IContent, D extends IContentDto, 
      * @return contentId; not valid -> 0L
      */
     @RequestMapping(value = "/api", method = RequestMethod.POST)
-    public long postContent(@ModelAttribute @Valid D dto, BindingResult bindingResult, Model model) {
+    public long post(@ModelAttribute @Valid D dto, BindingResult bindingResult, Model model) {
         log.info("{} {} request :: {}", "POST", getThisTypeName(), dto);
 
         validator.validate(dto, bindingResult);
@@ -92,7 +97,7 @@ public abstract class BaseController<T extends IContent, D extends IContentDto, 
      * @return contentId; not valid -> 0L
      */
     @RequestMapping(value = "/api", method = RequestMethod.DELETE)
-    public long deleteContent(@RequestParam Long id, Model model) {
+    public long delete(@RequestParam Long id, Model model) {
         log.info("{} {} request :: {}", "DELETE", getThisTypeName(), id);
 
         Optional<T> optional = service.getById(id);
@@ -109,7 +114,7 @@ public abstract class BaseController<T extends IContent, D extends IContentDto, 
      * @return contentPage
      */
     @RequestMapping(value = "/api/list", method = RequestMethod.GET)
-    public Page getFilteredPage(@PageableDefault(size = 4) Pageable pageable,
+    public Page<T> getFilteredPage(@PageableDefault(size = 4) Pageable pageable,
                                 @RequestParam(required = false, defaultValue = "") String searchText) {
         log.info("{} {} request :: pageable : {}, searchText : {}",
                 "GET/list", getThisTypeName(), pageable, searchText);

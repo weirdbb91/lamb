@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/common :: head('Board')">head('title')</head>
+
+<body>
+
+<div th:replace="fragments/common :: background"/>
+<nav th:replace="fragments/common :: nav_bar('Board')">navigation bar</nav>
+<div th:if="${error}" class="alert alert-danger" role="alert">Error message.</div>
+
+<!--<div th:with="message='Simple message'">-->
+<!--    <truncate th:attr="'v-bind:text'=${message}"/>-->
+<!--<a th:attr="'@click'=|getActivityList('${activityPage.number}')|">-->
+
+<div id="boardMain" style="background-color:rgba(255, 255, 255, 0.7);"
+     class="container my-3 p-3 border border-secondary rounded">
+    <span th:text="${'th = ' + contentTypeName}"></span>
+    <br>
+    <span>vue = {{ baek }}</span>
+    <br>
+    <content-display th:attr="'v-bind:name'=${contentTypeName}"></content-display>
+</div>
+
+
+
+<!-- Import Vue.js & App & Component -->
+    <script src="./js/BoardMain.js"></script>
+    <script src="./js/component/ContentDisplay.js"></script>
+
+<!--    &lt;!&ndash; Mount App &ndash;&gt;-->
+    <script>const mountedApp = app.mount('#boardMain')</script>
+
+</body>
+</html>

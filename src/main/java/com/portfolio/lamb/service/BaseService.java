@@ -1,15 +1,17 @@
 package com.portfolio.lamb.service;
 
-import com.portfolio.lamb.domain.content.IContent;
+import com.portfolio.lamb.domain.content.MembersContent;
 import com.portfolio.lamb.repository.BaseRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
 
-public abstract class BaseService<T extends IContent, R extends BaseRepository<T>> {
+public abstract class BaseService<T extends MembersContent, R extends BaseRepository<T>> {
 
+    @Autowired
     R repo;
 
     public Page<T> getFilteredPage(String searchText, Pageable pageable) {

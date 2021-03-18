@@ -10,7 +10,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableJpaAuditing
 @SpringBootApplication
 public class LambApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(LambApplication.class, args);
     }

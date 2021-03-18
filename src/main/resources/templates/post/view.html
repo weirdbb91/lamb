@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/common :: head('View')">head('title')
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+            crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="starter-template.css" th:href="@{/css/starter-template.css}">
+
+    <!-- Font Awesome -->
+    <link href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" rel="stylesheet"
+          integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+
+    <title th:text="${title}">포트폴리오 - Hello, world!</title>
+
+    <style>
+        @font-face {
+            font-family: 'paybooc-Bold';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/paybooc-Bold.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        body {
+            font-family: paybooc-Bold;
+            padding: 0;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div th:replace="fragments/common :: background"/>
+<nav th:replace="fragments/common :: nav_bar('View')">navigation bar</nav>
+
+<div class="container m-auto my-5 p-5 bg-white border border-secondary rounded">
+    <h2>Board View</h2>
+
+
+    <div th:if="${error}" th:text="${error}"
+         class="alert alert-danger" role="alert">Error message.</div>
+
+    <form action="#" th:action="@{/board/form}" th:object="${boardDto}" method="GET">
+        <input type="hidden" th:field="*{id}">
+        <input type="hidden" th:field="*{memberId}">
+        <div class="mb-2 container m-auto text-end">
+            <span>Board No. : </span>
+            <span th:text="*{id} ? *{id} : 'New'" class="me-5 text-muted">XX</span>
+            <span>Author : </span>
+            <span th:text="*{memberId}" class="mx-1 text-muted">me</span>
+        </div>
+
+        <div class="form-group mb-2 m-auto border-bottom border-secondary bg-light" style="min-height: 38px;">
+            <div id="title" th:text="'Title : ' + *{title}">Title : Robinson Crusoe</div>
+        </div>
+        <div class="form-group mb-2 m-auto bg-light" style="min-height: 86px;">
+            <div id="content" th:text="*{content}">He's a poor guy.</div>
+        </div>
+
+        <div class="d-flex justify-content-end mt-4">
+            <a type="button" class="btn btn-secondary mx-sm-3" th:href="@{list}">Back</a>
+            <a class="btn btn-white disabled mx-sm-3"> </a>
+            <button type="submit" class="btn btn-primary mx-sm-3"
+            th:classappend="${session.member_id} != *{memberId} ? 'disabled'">Edit</button>
+        </div>
+    </form>
+
+</div>
+
+</body>
+
+</html>

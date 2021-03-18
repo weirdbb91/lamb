@@ -1,13 +1,13 @@
 package com.portfolio.lamb.validator;
 
 import com.portfolio.lamb.domain.PostDto;
+
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
-import org.springframework.validation.Validator;
 
 
 @Component
-public class PostDtoValidator extends ContentDtoValidator<PostDto> implements Validator {
+public class PostDtoValidator extends ContentDtoValidator<PostDto> {
 
     @Override
     public boolean supports(Class<?> clazz) {

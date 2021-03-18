@@ -45,11 +45,11 @@ public class Member extends Timestamped {
 
     private boolean social = false;
 
-    @OneToMany(mappedBy = "member")
-    private List<Board> boardList;
+    // @OneToMany(mappedBy = "member")
+    // private List<Board> boardList;
 
-    @OneToMany(mappedBy = "member")
-    private List<Post> postList;
+    // @OneToMany(mappedBy = "member")
+    // private List<Post> postList;
 
     public Member(MemberDto memberDto) {
         this.role = Role.USER;
